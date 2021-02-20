@@ -1,5 +1,5 @@
 const mongoose = require('../db/connection')
-
+const commentSchema = require('./Comment')
 const options = {
     timestamps: true,
     toJSON: {
@@ -20,9 +20,22 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true
+        required: true,
+        minlength:10
     },
-    motto: String
+    name:{
+        required:true,
+        type:String
+    },
+    DOB:{
+        type:Date,
+        required:true,
+    },
+    weight:{
+        type:Number,
+        required:true
+    },
+    comments:[commentSchema]
 }, options)
 
 module.exports = mongoose.model('User', userSchema)

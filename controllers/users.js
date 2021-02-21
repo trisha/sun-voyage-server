@@ -20,12 +20,19 @@ router.post('/signup', (req, res) => {
     .then(hashedPassword => ({
         email: req.body.email,
         password: hashedPassword,
-        motto: req.body.motto
+        name:req.body.name,
+        weight:req.body.weight,
+        DOB:req.body.DOB
+
     }))
     .then(hashedUser => {
         User.create(hashedUser) // hashedUser is a javascript object that gets sent to and created in Mongo.
         // .then(createdUser => res.json(createdUser))
-        .then(createdUser => createUserToken(req, createdUser)) // Creating a token.
+        .then(createdUser => {
+            // Lines 33 and 34 are for test it will remove
+            createdUser.comments.push({content:"Hello this is just for test",planet:"60317bdb042ec95f348177f9"},{content:"the second one"})
+            createdUser.save()
+            return createUserToken(req, createdUser)}) // Creating a token.
         .then(token => res.json({token})) // Sending that token to the frontend.
         .catch(err => console.log('ERROR CREATING USER', err))
     })

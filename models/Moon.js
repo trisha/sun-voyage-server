@@ -1,10 +1,8 @@
 const mongoose=require('../db/connection')
 const commentSchema = require('./Comment')
-const moonSchema = require('./Moon')
 
-const planetSchema=mongoose.Schema({
+const moonSchema=mongoose.Schema({
     name:String,
-    moons:[moonSchema],
     mass:{
         massValue:Number,
         massExponent:Number
@@ -17,4 +15,4 @@ const planetSchema=mongoose.Schema({
 
 })
 
-module.exports= mongoose.model('Planet', planetSchema)
+module.exports= moonSchema

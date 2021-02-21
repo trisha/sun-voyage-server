@@ -39,6 +39,11 @@ router.post('/signup', (req, res) => {
     // res.send("We've hit the /api/signup POST route.")
 })
 
+router.get('/profile', requireToken, (req, res) => {
+    console.log(req.user)
+    return res.json({ message: `Welcome to your profile page, ${req.user.name}`})
+})
+
 // PRIVATE ROUTE
 // GET /api/private
 router.get('/private', requireToken, (req, res) => { // passport.authenticate takes two arguments: what strategy we're using, and options object (incl whether a session is involved).

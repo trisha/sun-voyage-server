@@ -41,7 +41,7 @@ router.post('/signup', (req, res) => {
 
 router.get('/profile', requireToken, (req, res) => {
     console.log(req.user)
-    return res.json({ message: `Welcome to your profile page, ${req.user.name}`})
+    return res.json({ 'message': `Welcome to your profile page, ${req.user.name}`})
 })
 
 // PRIVATE ROUTE

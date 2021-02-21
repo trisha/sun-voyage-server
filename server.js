@@ -15,6 +15,9 @@ app.use(express.urlencoded({extended: false}))
 
 // Controller middleware.
 app.use('/auth', require('./controllers/users'))
+app.use('/planets', require('./controllers/planets'))
+app.use('/comments', require('./controllers/comments'))
+
 
 app.get('/', (req, res) => {
     return res.json({ 'message': 'Successfully hit the home route. We can pass planet information to the front end from here.'})

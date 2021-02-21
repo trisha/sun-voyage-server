@@ -20,9 +20,9 @@ router.post('/signup', (req, res) => {
     .then(hashedPassword => ({
         email: req.body.email,
         password: hashedPassword,
-        name:req.body.name,
-        weight:req.body.weight,
-        DOB:req.body.DOB
+        name: req.body.name,
+        weight: req.body.weight,
+        DOB: req.body.DOB
 
     }))
     .then(hashedUser => {

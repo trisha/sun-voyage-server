@@ -14,7 +14,7 @@ app.use(cors())
 app.use(express.urlencoded({extended: false}))
 
 // Controller middleware.
-app.use('/auth', require('./controllers/users'))
+app.use('/auth', require('./controllers/auth'))
 app.use('/planets', require('./controllers/planets'))
 app.use('/comments', require('./controllers/comments'))
 

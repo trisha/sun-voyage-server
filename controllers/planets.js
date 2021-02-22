@@ -12,7 +12,10 @@ router.get('/', (req, res) => {
     // We need to decide on property names, perhaps req.body.searchTerm
     // Then based on that searchTerm, find relevant planets from Planet.findAll({})
     // And then return that array/object? (I forget which) of planet objects. 
-    return res.json({ "message": "We've hit the /planets page!" })
+    Planet.find()
+    .then(planets=>{
+        return res.json({planets})
+    })
 })
 
 // Display info about planet (not including comments).

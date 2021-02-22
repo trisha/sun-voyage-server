@@ -9,9 +9,11 @@ const options={
 // Screenshot of sample comment: https://files.slack.com/files-pri/T0351JZQ0-F01NYALE90B/image.png
 const commentSchema=new mongoose.Schema({
     planet:{
-        type:mongoose.Schema.ObjectId},
+        type:mongoose.Schema.ObjectId
+    },
     user:{
-        type: mongoose.Schema.ObjectId},
+        type: mongoose.Schema.ObjectId
+    },
     content:{
         type:String,
         required:true

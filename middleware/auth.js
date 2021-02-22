@@ -52,12 +52,14 @@ const createUserToken = (req, user) => {
         const payload = {
             id: user._id,
             email: user.email,
-            // T: We can add additional required values here. I'm not sure what will happen if we try to add a value that's undefined, my hunch is that it doesn't break, but not 100% sure.
-            motto: user.motto
+            name:user.name,
+            age:user.age,
+            weight:user.weight
         }
         return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 }) // 3600 seconds if 15 minutes.
     }
 }
+
 
 const requireToken = passport.authenticate('jwt', { session: false })
 

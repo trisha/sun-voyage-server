@@ -13,7 +13,8 @@ const planetSchema=mongoose.Schema({
     escape:Number,
     sideralOrbit:Number,
     sideralRotation:Number,
-    comments:[commentSchema]
+    comments:[commentSchema],
+    archivedComments:[commentSchema] // Once comments.length >= 10 we push them to them to archivedComments.
 
 })
 

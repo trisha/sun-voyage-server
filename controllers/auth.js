@@ -4,9 +4,9 @@ const User = require('../models/User')
 const Planet = require('../models/Planet')
 const bcrypt = require('bcrypt')
 const { createUserToken, requireToken } = require('../middleware/auth')
-const passport = require('passport') // For authentication; must be logged in to see /api/private route.
-const moment=require('moment')
-// CREATE.
+const passport = require('passport') // For authentication; must be logged in to see /auth/profile route.
+
+// http://localhost:8000/auth/login
 router.post('/login', (req, res) => {
     // res.send("We've hit the /api/login POST route.")
     
@@ -28,6 +28,7 @@ router.post('/login', (req, res) => {
 
 })
 
+// http://localhost:8000/auth/signup
 router.post('/signup', (req, res) => {
     // I should add the age calculation
     console.log(req.body)
@@ -35,11 +36,9 @@ router.post('/signup', (req, res) => {
     .then(hashedPassword => ({
         email: req.body.email,
         password: hashedPassword,
-        name:req.body.name,
-        weight:req.body.weight,
-        DOB:req.body.DOB
-  
-
+        name: req.body.name,
+        weight: req.body.weight,
+        DOB: req.body.DOB
     }))
     .then(hashedUser => {
         User.create(hashedUser) // hashedUser is a javascript object that gets sent to and created in Mongo.
@@ -55,10 +54,11 @@ router.post('/signup', (req, res) => {
     // res.send("We've hit the /api/signup POST route.")
 })
 
-router.get('/profile', requireToken, (req, res) => {
-    console.log(req.user)
-    return res.json({ 'message': `Welcome to your profile page, ${req.user.name}`})
-})
+// http://localhost:8000/auth/profile
+// router.get('/profile', requireToken, (req, res) => {
+//     console.log(req.user)
+//     return res.json({ 'message': `Welcome to your profile page, ${req.user.name}`})
+// })
 
 // PRIVATE ROUTE
 // GET /auth/profile
@@ -85,5 +85,11 @@ router.get('/profile', requireToken, (req, res) => { // passport.authenticate ta
 // POST to login, copy and paste token value (not including strings)
 // Then, GET /api/private and click on 'Headers' tab. Key: Authorization, Value: Bearer <token>
 // Space between Bearer and the copy and pasted token.
+// How to use requireToken:
+// In Postman, when you POST to login (or anywhere that prints or sends the token),
+// copy and paste token value (not including strings).
+// Then, in Postman GET /auth/profile and click on 'Headers' tab. 
+// Field values = Key: Authorization, Value: Bearer <copyAndPasteToken>
+// Note the space between Bearer and the copy and pasted token.
 
 module.exports = router

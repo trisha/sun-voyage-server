@@ -3,9 +3,9 @@ const router = express.Router()
 const User = require('../models/User')
 const bcrypt = require('bcrypt')
 const { createUserToken, requireToken } = require('../middleware/auth')
-const passport = require('passport') // For authentication; must be logged in to see /api/private route.
+const passport = require('passport') // For authentication; must be logged in to see /auth/profile route.
 
-// CREATE.
+// http://localhost:8000/auth/login
 router.post('/login', (req, res) => {
     // res.send("We've hit the /api/login POST route.")
     User.findOne( {email: req.body.email })
@@ -15,6 +15,7 @@ router.post('/login', (req, res) => {
     .catch( err => console.log( 'ERROR LOGGING IN:', err ))
 })
 
+// http://localhost:8000/auth/signup
 router.post('/signup', (req, res) => {
     bcrypt.hash(req.body.password, 10)
     .then(hashedPassword => ({
@@ -23,7 +24,6 @@ router.post('/signup', (req, res) => {
         name: req.body.name,
         weight: req.body.weight,
         DOB: req.body.DOB
-
     }))
     .then(hashedUser => {
         User.create(hashedUser) // hashedUser is a javascript object that gets sent to and created in Mongo.
@@ -39,21 +39,17 @@ router.post('/signup', (req, res) => {
     // res.send("We've hit the /api/signup POST route.")
 })
 
+// http://localhost:8000/auth/profile
 router.get('/profile', requireToken, (req, res) => {
     console.log(req.user)
     return res.json({ 'message': `Welcome to your profile page, ${req.user.name}`})
 })
 
-// PRIVATE ROUTE
-// GET /api/private
-router.get('/private', requireToken, (req, res) => { // passport.authenticate takes two arguments: what strategy we're using, and options object (incl whether a session is involved).
-    // requireToken is what is giving us/creates the req.user information. Jwt has middleware that does this for us whereas in session we had to define it. 
-    console.log(req.user) // Returns password in a JS object because we aren't converting it to JSON. Only when we convert to JSON does the password get omitted (on model/auth.js). 
-    return res.json( {'message': 'thou hath been granted permission to access this route!'})
-})
-
-// POST to login, copy and paste token value (not including strings)
-// Then, GET /api/private and click on 'Headers' tab. Key: Authorization, Value: Bearer <token>
-// Space between Bearer and the copy and pasted token.
+// How to use requireToken:
+// In Postman, when you POST to login (or anywhere that prints or sends the token),
+// copy and paste token value (not including strings).
+// Then, in Postman GET /auth/profile and click on 'Headers' tab. 
+// Field values = Key: Authorization, Value: Bearer <copyAndPasteToken>
+// Note the space between Bearer and the copy and pasted token.
 
 module.exports = router

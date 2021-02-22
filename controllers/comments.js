@@ -4,6 +4,7 @@ const User = require('../models/User')
 const Planet = require('../models/Planet')
 const Moon = require('../models/Moon')
 const Comment = require('../models/Comment')
+const { createUserToken, requireToken } = require('../middleware/auth')
 
 // Display a planet's comments.
 router.get('/display/:planetId', (req, res) => {

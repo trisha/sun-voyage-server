@@ -14,13 +14,13 @@ router.post('/login', (req, res) => {
     .then(foundUser => {
         //here is just for test to see we can save comments and when user come to the profile can send the comments
         // it will remove for future
-        Planet.findOne({'name':'Mercury'})
-        .then(planet=>{
-            planet.comments.push({user:foundUser.id,planet:planet.id,content:'this for test'},{user:foundUser.id,planet:planet.id,content:'Thanks to update my comments'})
-            console.log('🤞')
-            console.log(planet)
-            planet.save()
-        })
+        // Planet.findOne({'name':'Mercury'})
+        // .then(planet=>{
+        //     planet.comments.push({user:foundUser.id,planet:planet.id,content:'this for test'},{user:foundUser.id,planet:planet.id,content:'Thanks to update my comments'})
+        //     console.log('🤞')
+        //     console.log(planet)
+        //     planet.save()
+        // })
         return createUserToken (req, foundUser)})
 //    .then(token => res.json( {token} )) // Using curly braces returns JSON object with 'token' as the key and a string value. Without curly braces, it only returns the string value.
     .then(token => res.status(201).json( {token} ))

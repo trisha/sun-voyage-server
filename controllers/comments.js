@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router()
-const { requireToken } = require('../middleware/auth')
 const User = require('../models/User')
 const Planet = require('../models/Planet')
 const Moon = require('../models/Moon')

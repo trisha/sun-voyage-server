@@ -8,15 +8,15 @@ const Comment = require('../models/Comment')
 
 // Display a planet's comments. Use below URL for Mercury:
 // http://localhost:8000/comments/display/6033f85cf487a44600fe84b2 
+/*
 router.get('/display/:planetId', (req, res) => {
     console.log('🔥', req.user)
     let planet = Planet.find({ id: req.params.planetId })
     let comments = planet.comments
-    console.log("🪐 Here is the planet that we found for you ", planet)
-    console.log("🪐 Here are that planet's comments ", comments)
     return res.json({ comments })
     // return res.json({ "message":  "We've hit the /comments/display/:planetId page!" })
 })
+*/
 
 // Add a new comment to /comments/add/planet:id. Must be logged in. Below URL is for Mercury:
 // http://localhost:8000/comments/add/6033f85cf487a44600fe84b2 

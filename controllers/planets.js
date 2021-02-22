@@ -35,9 +35,8 @@ router.get('/display/:id', (req, res) => {
 // Display archived comments about planet.
 // http://localhost:8000/planets/archive/:id
 router.get('/archive/:id', (req, res) => {
+    
     // Not including 'return' also seems to work in Postman.
     res.json({ message: `We've hit the /planets/archive/${req.params.id} route!`})
 })
-
-
 module.exports = router

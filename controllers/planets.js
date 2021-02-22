@@ -23,17 +23,15 @@ router.get('/', (req, res) => {
 router.get('/display/:id', (req, res) => {
     // We use req.params.id to searchForById and grab the planet we're interested in.
     // Then, we send that planet object AND its comments to the client.
-    return res.json({ "message":  `We've hit the /planets/display/${req.params.id} page!` })
+    Planet.find({'_id':req.params.id})
+    .then(planet=>{
+        return res.json({planet})
+    })
 })
 
 /* SEE COMMENTS.JS INSTEAD:
 // Display comments for each planet. 
 // (Need to have this separate so that we can require a token, so that we know which comments to put an edit or delete button next to.)
-router.get('/display/comments/:id', requireToken, (req, res) => {
-    // We use req.params.id to searchForById and grab the planet we're interested in.
-    // Then, we send that planet object AND its comments to the client.
-    return res.json({ "message":  "We've hit the /planets/display/:id page!" })
-})
 */
 
 // Display archived comments about planet.

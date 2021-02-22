@@ -39,4 +39,8 @@ router.get('/archive/:id', (req, res) => {
     // Not including 'return' also seems to work in Postman.
     res.json({ message: `We've hit the /planets/archive/${req.params.id} route!`})
 })
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 module.exports = router

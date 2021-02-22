@@ -37,7 +37,8 @@ router.post('/signup', (req, res) => {
         password: hashedPassword,
         name:req.body.name,
         weight:req.body.weight,
-        DOB:req.body.DOB,
+        DOB:req.body.DOB
+  
 
     }))
     .then(hashedUser => {
@@ -54,21 +55,24 @@ router.post('/signup', (req, res) => {
     // res.send("We've hit the /api/signup POST route.")
 })
 
+router.get('/profile', requireToken, (req, res) => {
+    console.log(req.user)
+    return res.json({ 'message': `Welcome to your profile page, ${req.user.name}`})
+})
+
 // PRIVATE ROUTE
 // GET /auth/profile
-router.get('/profile/:id', requireToken, (req, res) => { // passport.authenticate takes two arguments: what strategy we're using, and options object (incl whether a session is involved).
+router.get('/profile', requireToken, (req, res) => { // passport.authenticate takes two arguments: what strategy we're using, and options object (incl whether a session is involved).
     // requireToken is what is giving us/creates the req.user information. Jwt has middleware that does this for us whereas in session we had to define it. 
    // Returns password in a JS object because we aren't converting it to JSON. Only when we convert to JSON does the password get omitted (on model/auth.js). 
 //    User.findOne({name: 'Bob'}, function (err, user) {
-
-
     console.log(req.params.id)
-  Planet.find({'comments.user':req.user.id})
-  .then(planet=>{
-      let arr=planet.map(plan=>{
-          return  {
-              name:plan.name,
-              comments:plan.comments
+    Planet.find({'comments.user':req.user.id})
+    .then(planet=>{
+        let arr=planet.map(plan=>{
+            return  {
+                name:plan.name,
+                comments:plan.comments
             }
         })
         console.log('🤞')

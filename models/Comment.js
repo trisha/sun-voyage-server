@@ -19,6 +19,6 @@ const commentSchema=new mongoose.Schema({
     lastEditDate:Date,
     archived:Boolean
 
-})
+},options)
 
 module.exports=commentSchema

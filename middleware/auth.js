@@ -52,11 +52,14 @@ const createUserToken = (req, user) => {
         const payload = {
             id: user._id,
             email: user.email,
-            motto: user.motto
+            name:user.name,
+            age:user.age,
+            weight:user.weight
         }
         return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 }) // 3600 seconds if 15 minutes.
     }
 }
+
 
 const requireToken = passport.authenticate('jwt', { session: false })
 

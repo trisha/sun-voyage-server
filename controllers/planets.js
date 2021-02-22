@@ -28,17 +28,19 @@ router.get('/display/:id', (req, res) => {
         return res.json({planet})
     })
 })
-
 /* SEE COMMENTS.JS INSTEAD:
 // Display comments for each planet. 
 // (Need to have this separate so that we can require a token, so that we know which comments to put an edit or delete button next to.)
 */
-
 // Display archived comments about planet.
 // http://localhost:8000/planets/archive/:id
 router.get('/archive/:id', (req, res) => {
+    
     // Not including 'return' also seems to work in Postman.
     res.json({ message: `We've hit the /planets/archive/${req.params.id} route!`})
 })
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 module.exports = router

@@ -38,10 +38,23 @@ router.post('/add/:planetId', requireToken, (req, res) => {
 })
 
 // Edit comment but only if you're the author.
-router.put('/edit/:id', requireToken, (req, res) => {
+// We need comment id and planet id
+router.put('/edit/:planetId/:commentId', requireToken, (req, res) => {
     // Find comment by ID. 
     // Verify that email matches logged in user's email.
-    return res.json({ "message":  "We've hit the /planets/display/:id page!" })
+    Planet.findById({'_id':req.params.planetId})
+    .then(planet=>{
+        planet.comments.forEach(comment=>{
+            if(comment.id==req.params.commentId){
+                comment.content==req.body
+            }
+        })
+        return res.json( {message:"true"})
+})
+.catch(err=>{
+    return res.json({message:'false'})
+})
+   // return res.json({ "message":  "We've hit the /planets/display/:id page!" })
 })
 
 // Delete comment but only if you're the author.

@@ -2,7 +2,7 @@ const mongoose=require('../db/connection')
 const commentSchema = require('./Comment')
 const moonSchema = require('./Moon')
 
-const planetSchema=mongoose.Schema({
+const planetSchema=new mongoose.Schema({
     name:String,
     moons:[moonSchema],
     mass:{
@@ -13,7 +13,8 @@ const planetSchema=mongoose.Schema({
     escape:Number,
     sideralOrbit:Number,
     sideralRotation:Number,
-    comments:[commentSchema]
+    comments:[commentSchema],
+    archivedComments:[commentSchema] // Once comments.length >= 10 we push them to them to archivedComments.
 
 })
 

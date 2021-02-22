@@ -6,41 +6,72 @@ const Planet = require('../models/Planet')
 const Moon = require('../models/Moon')
 const Comment = require('../models/Comment')
 
-// Display a planet's comments.
-// http://localhost:8000/comment/display/:planetId
+// Display a planet's comments. Use below URL for Mercury:
+// http://localhost:8000/comments/display/6033f85cf487a44600fe84b2 
 router.get('/display/:planetId', (req, res) => {
-    return res.json({ "message":  "We've hit the /comments/display/:planetId page!" })
+    console.log('🔥', req.user)
+    let planet = Planet.find({ id: req.params.planetId })
+    let comments = planet.comments
+    console.log("🪐 Here is the planet that we found for you ", planet)
+    console.log("🪐 Here are that planet's comments ", comments)
+    return res.json({ comments })
+    // return res.json({ "message":  "We've hit the /comments/display/:planetId page!" })
 })
 
-// Add a new comment to /comments/add/planet:id 
-// http://localhost:8000/comment/add/:planetId
-router.post('/add/:planetId', (req, res) => {
-    console.log('✔✔✔✔✔✔✔')
-    console.log(req.body.message)
+// Add a new comment to /comments/add/planet:id. Below URL is for Mercury:
+// http://localhost:8000/comments/add/6033f85cf487a44600fe84b2 
+router.post('/add/:planetId',requireToken, (req, res) => {
+    // const comment = new Comment({
+    //     planet: req.params.planetId,
+    //     user: 'Trisha', // TO-DO: UPDATE TO BE USER ID OF USER.
+    //     content: req.body.content,
+    //     archived: false // TO-DO: ADD LOGIC THAT DETERMINES WHETHER THIS COMMENT IS ARCHIVED OR NOT.
+    // })
+    console.log('🔥', req.params.planetId)
+    Planet.findById(req.params.planetId)
+    .then(foundPlanet=>{
+        foundPlanet.comments.push({
+            user:req.user.id,
+            planet:req.params.planetId,
+            content:req.body.message
+        })
+        foundPlanet.save()
+        console.log(foundPlanet)
+    })
+    // Planet.findByIdAndUpdate({ _id: req.params.planetId})
+    // .then( foundPlanet => {
+    //     console.log("🪐 Here is the planet before: ", planet)
+    //     console.log("🌒 Here is the comment being added: ", req.body)
+    //     foundPlanet.comments.push(req.body)
+    //     console.log("🪐🌒 Here is the planet after having comments added: ", planet)
+    //     res.json({ planet })
+    // }).catch( err => {
+    //     console.log("Error finding planet by ID ", err)
+    // })
     // We use req.params.id to know which planet this comment belongs to.
     // We create a comment using req.body.title, req.body.content, etc.
     // return res.redirect(`/planets.display/${req.params.planetId}`, comments={newComments})
-
-    return res.json({ "message":  "We've hit the /comments/add/:planetId page!" })
+    // return res.json({ "message":  "We've hit the /comments/add/:planetId page!" })
 })
 
 // Edit comment but only if you're the author.
-router.put('/edit/:id', requireToken, (req, res) => {
+// We need comment id and planet id
+router.put('/edit/:planetId/:commentId', requireToken, (req, res) => {
     // Find comment by ID. 
     // Verify that email matches logged in user's email.
-    Planet.findById({'_id':req.params.id})
+    Planet.findById({'_id':req.params.planetId})
     .then(planet=>{
-        let arr=planet.map(plan=>{
-            return  {
-                name:plan.name,
-                comments:plan.comments
+        planet.comments.forEach(comment=>{
+            if(comment.id==req.params.commentId){
+                comment.content==req.body
             }
         })
-        console.log('🤞')
-        console.log(arr)
-        return res.json( {arr})
+        return res.json( {message:"true"})
 })
-    return res.json({ "message":  "We've hit the /planets/display/:id page!" })
+.catch(err=>{
+    return res.json({message:'false'})
+})
+   // return res.json({ "message":  "We've hit the /planets/display/:id page!" })
 })
 
 // Delete comment but only if you're the author.

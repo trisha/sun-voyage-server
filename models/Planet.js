@@ -2,7 +2,7 @@ const mongoose=require('../db/connection')
 const commentSchema = require('./Comment')
 const moonSchema = require('./Moon')
 
-const planetSchema=mongoose.Schema({
+const planetSchema=new mongoose.Schema({
     name:String,
     moons:[moonSchema],
     mass:{

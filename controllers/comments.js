@@ -20,24 +20,34 @@ router.get('/display/:planetId', (req, res) => {
 
 // Add a new comment to /comments/add/planet:id. Below URL is for Mercury:
 // http://localhost:8000/comments/add/6033f85cf487a44600fe84b2 
-router.post('/add/:planetId', (req, res) => {
-    const comment = new Comment({
-        planet: req.params.planetId,
-        user: 'Trisha', // TO-DO: UPDATE TO BE USER ID OF USER.
-        content: req.body.content,
-        archived: false // TO-DO: ADD LOGIC THAT DETERMINES WHETHER THIS COMMENT IS ARCHIVED OR NOT.
-    })
+router.post('/add/:planetId',requireToken, (req, res) => {
+    // const comment = new Comment({
+    //     planet: req.params.planetId,
+    //     user: 'Trisha', // TO-DO: UPDATE TO BE USER ID OF USER.
+    //     content: req.body.content,
+    //     archived: false // TO-DO: ADD LOGIC THAT DETERMINES WHETHER THIS COMMENT IS ARCHIVED OR NOT.
+    // })
     console.log('🔥', req.params.planetId)
-    Planet.findByIdAndUpdate({ _id: req.params.planetId})
-    .then( foundPlanet => {
-        console.log("🪐 Here is the planet before: ", planet)
-        console.log("🌒 Here is the comment being added: ", req.body)
-        foundPlanet.comments.push(req.body)
-        console.log("🪐🌒 Here is the planet after having comments added: ", planet)
-        res.json({ planet })
-    }).catch( err => {
-        console.log("Error finding planet by ID ", err)
+    Planet.findById(req.params.planetId)
+    .then(foundPlanet=>{
+        foundPlanet.comments.push({
+            user:req.user.id,
+            planet:req.params.planetId,
+            content:req.body.message
+        })
+        foundPlanet.save()
+        console.log(foundPlanet)
     })
+    // Planet.findByIdAndUpdate({ _id: req.params.planetId})
+    // .then( foundPlanet => {
+    //     console.log("🪐 Here is the planet before: ", planet)
+    //     console.log("🌒 Here is the comment being added: ", req.body)
+    //     foundPlanet.comments.push(req.body)
+    //     console.log("🪐🌒 Here is the planet after having comments added: ", planet)
+    //     res.json({ planet })
+    // }).catch( err => {
+    //     console.log("Error finding planet by ID ", err)
+    // })
     // We use req.params.id to know which planet this comment belongs to.
     // We create a comment using req.body.title, req.body.content, etc.
     // return res.redirect(`/planets.display/${req.params.planetId}`, comments={newComments})
@@ -45,10 +55,23 @@ router.post('/add/:planetId', (req, res) => {
 })
 
 // Edit comment but only if you're the author.
-router.put('/edit/:id', requireToken, (req, res) => {
+// We need comment id and planet id
+router.put('/edit/:planetId/:commentId', requireToken, (req, res) => {
     // Find comment by ID. 
     // Verify that email matches logged in user's email.
-    return res.json({ "message":  "We've hit the /planets/display/:id page!" })
+    Planet.findById({'_id':req.params.planetId})
+    .then(planet=>{
+        planet.comments.forEach(comment=>{
+            if(comment.id==req.params.commentId){
+                comment.content==req.body
+            }
+        })
+        return res.json( {message:"true"})
+})
+.catch(err=>{
+    return res.json({message:'false'})
+})
+   // return res.json({ "message":  "We've hit the /planets/display/:id page!" })
 })
 
 // Delete comment but only if you're the author.

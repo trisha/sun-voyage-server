@@ -15,7 +15,7 @@ app.use(cors())
 app.use(express.urlencoded({extended: false}))
 
 // Controller middleware.
-app.use('/api', require('./controllers/users'))
+app.use('/auth', require('./controllers/users'))
 
 // We use 'process.env.PORT' for if heroku wants to use its own port, no need for us to put it in our .env.
 app.listen(process.env.PORT || 8000, () => {

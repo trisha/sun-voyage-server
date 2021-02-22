@@ -7,9 +7,11 @@ const options={
 
 const commentSchema=new mongoose.Schema({
     planet:{
-        type:mongoose.Schema.ObjectId},
+        type:mongoose.Schema.ObjectId
+    },
     user:{
-        type: mongoose.Schema.ObjectId},
+        type: mongoose.Schema.ObjectId
+    },
     content:{
         type:String,
         required:true

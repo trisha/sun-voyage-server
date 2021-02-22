@@ -28,14 +28,15 @@ const userSchema = new mongoose.Schema({
         type:String
     },
     DOB:{
-        type:Date,
+        type:String,
         required:true,
     },
     weight:{
         type:Number,
         required:true
     },
-    comments:[commentSchema]
+    comments:[commentSchema],
+    age:Number
 }, options)
 
 module.exports = mongoose.model('User', userSchema)

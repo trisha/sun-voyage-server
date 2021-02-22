@@ -1,28 +1,43 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../models/User')
+const Planet = require('../models/Planet')
 const bcrypt = require('bcrypt')
 const { createUserToken, requireToken } = require('../middleware/auth')
 const passport = require('passport') // For authentication; must be logged in to see /api/private route.
-
+const moment=require('moment')
 // CREATE.
 router.post('/login', (req, res) => {
     // res.send("We've hit the /api/login POST route.")
+    
     User.findOne( {email: req.body.email })
-    .then(foundUser => createUserToken (req, foundUser))
+    .then(foundUser => {
+        //here is just for test to see we can save comments and when user come to the profile can send the comments
+        // it will remove for future
+        Planet.findOne({'name':'Mercury'})
+        .then(planet=>{
+            planet.comments.push({user:foundUser.id,planet:planet.id,content:'this for test'},{user:foundUser.id,planet:planet.id,content:'Thanks to update my comments'})
+            console.log('🤞')
+            console.log(planet)
+            planet.save()
+        })
+        return createUserToken (req, foundUser)})
 //    .then(token => res.json( {token} )) // Using curly braces returns JSON object with 'token' as the key and a string value. Without curly braces, it only returns the string value.
     .then(token => res.status(201).json( {token} ))
     .catch( err => console.log( 'ERROR LOGGING IN:', err ))
+
 })
 
 router.post('/signup', (req, res) => {
+    // I should add the age calculation
+    console.log(req.body)
     bcrypt.hash(req.body.password, 10)
     .then(hashedPassword => ({
         email: req.body.email,
         password: hashedPassword,
         name:req.body.name,
         weight:req.body.weight,
-        DOB:req.body.DOB
+        DOB:req.body.DOB,
 
     }))
     .then(hashedUser => {
@@ -30,7 +45,7 @@ router.post('/signup', (req, res) => {
         // .then(createdUser => res.json(createdUser))
         .then(createdUser => {
             // Lines 33 and 34 are for test it will remove
-            createdUser.comments.push({content:"Hello this is just for test",planet:"60317bdb042ec95f348177f9"},{content:"the second one"})
+            createdUser.comments.push({content:"Hello this is just for test",planet:"60317bdb042ec95f348177f9",user:createdUser.id},{content:"the second one"})
             createdUser.save()
             return createUserToken(req, createdUser)}) // Creating a token.
         .then(token => res.json({token})) // Sending that token to the frontend.
@@ -40,11 +55,27 @@ router.post('/signup', (req, res) => {
 })
 
 // PRIVATE ROUTE
-// GET /api/private
-router.get('/private', requireToken, (req, res) => { // passport.authenticate takes two arguments: what strategy we're using, and options object (incl whether a session is involved).
+// GET /auth/profile
+router.get('/profile/:id', requireToken, (req, res) => { // passport.authenticate takes two arguments: what strategy we're using, and options object (incl whether a session is involved).
     // requireToken is what is giving us/creates the req.user information. Jwt has middleware that does this for us whereas in session we had to define it. 
-    console.log(req.user) // Returns password in a JS object because we aren't converting it to JSON. Only when we convert to JSON does the password get omitted (on model/auth.js). 
-    return res.json( {'message': 'thou hath been granted permission to access this route!'})
+   // Returns password in a JS object because we aren't converting it to JSON. Only when we convert to JSON does the password get omitted (on model/auth.js). 
+//    User.findOne({name: 'Bob'}, function (err, user) {
+
+
+    console.log(req.params.id)
+  Planet.find({'comments.user':req.user.id})
+  .then(planet=>{
+      let arr=planet.map(plan=>{
+          return  {
+              name:plan.name,
+              comments:plan.comments
+            }
+        })
+        console.log('🤞')
+        console.log(arr)
+        return res.json( {arr})
+})
+
 })
 
 // POST to login, copy and paste token value (not including strings)

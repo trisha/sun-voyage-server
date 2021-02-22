@@ -6,20 +6,27 @@ const Planet = require('../models/Planet')
 const Moon = require('../models/Moon')
 const Comment = require('../models/Comment')
 
-// Display a planet's comments.
-// http://localhost:8000/comment/display/:planetId
+// Display a planet's comments. Use below URL for Mercury:
+// http://localhost:8000/comments/display/6033f85cf487a44600fe84b2 
 router.get('/display/:planetId', (req, res) => {
-    let planet = Planet.find({ id: {req.params.planetId} })
+    let planet = Planet.find({ _id: req.params.planetId })
     let comments = planet.comments
-    console.log("🪐 Here is the planet that we found for you, " planet)
-    console.log("🪐 Here are that planet's comments, " comments)
+    console.log("🪐 Here is the planet that we found for you ", planet)
+    console.log("🪐 Here are that planet's comments ", comments)
     return res.json({ comments })
     // return res.json({ "message":  "We've hit the /comments/display/:planetId page!" })
 })
 
-// Add a new comment to /comments/add/planet:id 
-// http://localhost:8000/comment/add/:planetId
+// Add a new comment to /comments/add/planet:id. Below URL is for Mercury:
+// http://localhost:8000/comments/add/6033f85cf487a44600fe84b2 
 router.post('/add/:planetId', (req, res) => {
+    Planet.findById({ _id: req.params.planetId})
+    .then( foundPlanet => {
+        foundPlanet.comments.push(req.body)
+
+    }).catch( err => {
+        console.log("Error finding planet by ID ", err)
+    })
     // We use req.params.id to know which planet this comment belongs to.
     // We create a comment using req.body.title, req.body.content, etc.
     // return res.redirect(`/planets.display/${req.params.planetId}`, comments={newComments})

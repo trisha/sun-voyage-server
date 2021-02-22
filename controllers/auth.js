@@ -36,7 +36,7 @@ router.post('/signup', (req, res) => {
         .then(token => res.json({token})) // Sending that token to the frontend.
         .catch(err => console.log('ERROR CREATING USER', err))
     })
-    // res.send("We've hit the /api/signup POST route.")
+    // res.send("We've hit the /auth/signup POST route.")
 })
 
 // http://localhost:8000/auth/profile

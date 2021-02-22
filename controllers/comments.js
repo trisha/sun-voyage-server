@@ -9,7 +9,12 @@ const Comment = require('../models/Comment')
 // Display a planet's comments.
 // http://localhost:8000/comment/display/:planetId
 router.get('/display/:planetId', (req, res) => {
-    return res.json({ "message":  "We've hit the /comments/display/:planetId page!" })
+    let planet = Planet.find({ id: {req.params.planetId} })
+    let comments = planet.comments
+    console.log("🪐 Here is the planet that we found for you, " planet)
+    console.log("🪐 Here are that planet's comments, " comments)
+    return res.json({ comments })
+    // return res.json({ "message":  "We've hit the /comments/display/:planetId page!" })
 })
 
 // Add a new comment to /comments/add/planet:id 

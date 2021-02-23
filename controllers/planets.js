@@ -12,9 +12,17 @@ router.get('/', (req, res) => {
     // We need to decide on property names, perhaps req.body.searchTerm
     // Then based on that searchTerm, find relevant planets from Planet.findAll({})
     // And then return that array/object? (I forget which) of planet objects. 
+    
     Planet.find()
     .then(planets=>{
+        console.log('👏')
+        console.log(planets)
         return res.json({planets})
+    })
+    .catch(err=>{
+        console.log('😎')
+        console.log(err)
+        return res.json({err})
     })
 })
 
@@ -39,8 +47,4 @@ router.get('/archive/:id', (req, res) => {
     // Not including 'return' also seems to work in Postman.
     res.json({ message: `We've hit the /planets/archive/${req.params.id} route!`})
 })
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 module.exports = router

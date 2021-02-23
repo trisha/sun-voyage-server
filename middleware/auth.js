@@ -54,7 +54,8 @@ const createUserToken = (req, user) => {
             email: user.email,
             name:user.name,
             age:user.age,
-            weight:user.weight
+            weight:user.weight,
+            DOB:user.DOB
         }
         return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 }) // 3600 seconds if 15 minutes.
     }

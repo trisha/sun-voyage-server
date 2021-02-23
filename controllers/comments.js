@@ -50,41 +50,17 @@ router.post('/add/:planetId', requireToken, (req, res) => {
 router.put('/edit/:planetId/:commentId', requireToken, (req, res) => {
     // Find comment by ID. 
     // Verify that email matches logged in user's email.
-//     Planet.find({'comments.id':req.params.commentId})
-//     .then(planet=>{
-//         let arr=planet.map(plan=>{
-//             return  {
-//                 name:plan.name,
-//                 comments:plan.comments
-//             }
-//         })
-//         // console.log('🤞')
-//         // console.log(arr)
-//         return res.json( {arr})
-// })
     Planet.findByIdAndUpdate(req.params.planetId)
     .then(planet=>{
-        let test= planet.comments.id(req.params.commentId)
-        console.log("💕")
-         console.log(test)
-         test['content']=req.body.message
-         //test.save()
-         planet.save()
-    
-        // .then(comment=>{
-        //     console.log("💕")
-        //     console.log(comment)
-        // })
-        
-        // planet.comments.forEach(comment=>{
-        //     console.log("💕")
-        //     console.log(comment.id)
-        //     if(comment.id==req.params.commentId){
-        //         comment.content=req.body.message
-        //     }
-        // })
-        //planet.save()
-        return res.json( {message:"true"})
+        let comment= planet.comments.id(req.params.commentId)
+            if(req.user.id==comment.user){
+                comment['content']=req.body.message
+                planet.save()
+                return res.json( {message:"true"})
+            }
+            else{
+                return res.json( {message:"unAthorized"})
+            }
 })
 .catch(err=>{
     console.log(err)
@@ -96,10 +72,26 @@ router.put('/edit/:planetId/:commentId', requireToken, (req, res) => {
 // Delete comment but only if you're the author.
 // DELETE to http://localhost:8000/comments/delete/:id
 // In Postman, put your token in Headers: key='Authorization', value=`Bearer ${token}`
-router.delete('/delete/:id', requireToken, (req, res) => {
+router.delete('/delete/:planetId/:commentId', requireToken, (req, res) => {
     // Find comment by ID
     // Verify that user email matches logged in user email
-    return res.json({ "message": "We've hit the delete a comment route."})
+    Planet.findById(req.params.planetId)
+    .then(planet=>{
+        let comment= planet.comments.id(req.params.commentId)
+        if(req.user.id==comment.user){
+            planet.comments.id(req.params.commentId).remove()
+            planet.save(err=>{
+                if(!err){
+
+                    return res.json( {message:"true"})
+                }
+            })
+        }
+        else{
+            return res.json( {message:"unAthorized"})
+
+        }
+    })
 }) 
 
 module.exports = router

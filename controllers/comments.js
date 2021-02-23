@@ -38,16 +38,7 @@ router.post('/add/:planetId',requireToken, (req, res) => {
         foundPlanet.save()
         console.log(foundPlanet)
     })
-    // Planet.findByIdAndUpdate({ _id: req.params.planetId})
-    // .then( foundPlanet => {
-    //     console.log("🪐 Here is the planet before: ", planet)
-    //     console.log("🌒 Here is the comment being added: ", req.body)
-    //     foundPlanet.comments.push(req.body)
-    //     console.log("🪐🌒 Here is the planet after having comments added: ", planet)
-    //     res.json({ planet })
-    // }).catch( err => {
-    //     console.log("Error finding planet by ID ", err)
-    // })
+
     // We use req.params.id to know which planet this comment belongs to.
     // We create a comment using req.body.title, req.body.content, etc.
     // return res.redirect(`/planets.display/${req.params.planetId}`, comments={newComments})
@@ -59,16 +50,44 @@ router.post('/add/:planetId',requireToken, (req, res) => {
 router.put('/edit/:planetId/:commentId', requireToken, (req, res) => {
     // Find comment by ID. 
     // Verify that email matches logged in user's email.
-    Planet.findById({'_id':req.params.planetId})
+//     Planet.find({'comments.id':req.params.commentId})
+//     .then(planet=>{
+//         let arr=planet.map(plan=>{
+//             return  {
+//                 name:plan.name,
+//                 comments:plan.comments
+//             }
+//         })
+//         // console.log('🤞')
+//         // console.log(arr)
+//         return res.json( {arr})
+// })
+    Planet.findByIdAndUpdate(req.params.planetId)
     .then(planet=>{
-        planet.comments.forEach(comment=>{
-            if(comment.id==req.params.commentId){
-                comment.content==req.body
-            }
-        })
+        let test= planet.comments.id(req.params.commentId)
+        console.log("💕")
+         console.log(test)
+         test['content']=req.body.message
+         //test.save()
+         planet.save()
+    
+        // .then(comment=>{
+        //     console.log("💕")
+        //     console.log(comment)
+        // })
+        
+        // planet.comments.forEach(comment=>{
+        //     console.log("💕")
+        //     console.log(comment.id)
+        //     if(comment.id==req.params.commentId){
+        //         comment.content=req.body.message
+        //     }
+        // })
+        //planet.save()
         return res.json( {message:"true"})
 })
 .catch(err=>{
+    console.log(err)
     return res.json({message:'false'})
 })
    // return res.json({ "message":  "We've hit the /planets/display/:id page!" })

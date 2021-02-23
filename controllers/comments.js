@@ -21,15 +21,16 @@ router.get('/display/:planetId', (req, res) => {
 // Add a new comment to /comments/add/planet:id. Must be logged in. Below URL is for Mercury:
 // http://localhost:8000/comments/add/6033f85cf487a44600fe84b2 
 router.post('/add/:planetId', requireToken, (req, res) => {
-    Planet.findById( req.body.planet )
+    Planet.findById( req.params.planetId )
     .then(foundPlanet => {
         foundPlanet.comments.push({
             planet: req.body.planet, // Planet mongoose ID.
             user: req.user.id, // User mongoose ID.
-            content: req.body.content,
+            content: req.body.comment,
             archived: false // TO-DO: ADD LOGIC THAT DETERMINES WHETHER THIS COMMENT IS ARCHIVED OR NOT.
         })
         foundPlanet.save()
+        
         res.json({ foundPlanet }) // Sends updated planet with added comment.
     })
     .catch( err => {

@@ -74,8 +74,8 @@ router.get('/profile', requireToken, (req, res) => { // passport.authenticate ta
                 comments:plan.comments
             }
         })
-        console.log('🤞')
-        console.log(arr)
+        // console.log('🤞')
+        // console.log(arr)
         return res.json( {arr})
 })
 

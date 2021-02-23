@@ -1,7 +1,7 @@
 const mongoose=require('../db/connection')
 const commentSchema = require('./Comment')
 
-const moonSchema=mongoose.Schema({
+const moonSchema=new mongoose.Schema({
     name:String,
     mass:{
         massValue:Number,

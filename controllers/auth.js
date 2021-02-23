@@ -25,7 +25,6 @@ router.post('/login', (req, res) => {
 //    .then(token => res.json( {token} )) // Using curly braces returns JSON object with 'token' as the key and a string value. Without curly braces, it only returns the string value.
     .then(token => res.status(201).json( {token} ))
     .catch( err => console.log( 'ERROR LOGGING IN:', err ))
-
 })
 
 // http://localhost:8000/auth/signup

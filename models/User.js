@@ -36,7 +36,6 @@ const userSchema = new mongoose.Schema({
         type:Number,
         required:true
     },
-    comments:[commentSchema],
     age:Number
 }, options)
 

@@ -30,7 +30,7 @@ router.post('/login', (req, res) => {
 // http://localhost:8000/auth/signup
 router.post('/signup', (req, res) => {
     // I should add the age calculation
-    console.log(req.body)
+    //console.log(req.body)
     bcrypt.hash(req.body.password, 10)
     .then(hashedPassword => ({
         email: req.body.email,
@@ -65,7 +65,7 @@ router.get('/profile', requireToken, (req, res) => { // passport.authenticate ta
     // requireToken is what is giving us/creates the req.user information. Jwt has middleware that does this for us whereas in session we had to define it. 
    // Returns password in a JS object because we aren't converting it to JSON. Only when we convert to JSON does the password get omitted (on model/auth.js). 
 //    User.findOne({name: 'Bob'}, function (err, user) {
-    console.log(req.params.id)
+    //console.log(req.params.id)
     Planet.find({'comments.user':req.user.id})
     .then(planet=>{
         let arr=planet.map(plan=>{

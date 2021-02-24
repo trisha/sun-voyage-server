@@ -10,10 +10,6 @@ const axios = require('axios')
 // Send information on all planets. Each planet has embedded comments as a subdocument. 
 // http://localhost:8000/planets/
 router.get('/', (req, res) => {
-    // We need to decide on property names, perhaps req.body.searchTerm
-    // Then based on that searchTerm, find relevant planets from Planet.findAll({})
-    // And then return that array/object? (I forget which) of planet objects. 
-    
     Planet.find()
     .then(planets=>{
         console.log('👏')

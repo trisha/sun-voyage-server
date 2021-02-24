@@ -23,7 +23,6 @@ const findUser = (jwt_payload, done) => { // Done callback is an argument that p
 // Construct the strategy. Constructor takes 2 parameters: options object, findUser callback fxn.
 const strategy = new Strategy(options, findUser)
 
-
 // 'Register the strategy so that passport uses it when we call the passport.authenticate() method
 passport.use(strategy)
 
@@ -56,10 +55,9 @@ const createUserToken = (req, user) => {
             age:user.age,
             weight:user.weight
         }
-        return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 }) // 3600 seconds if 15 minutes.
+        return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 10800 }) // 10800 seconds is 3 hours.
     }
 }
-
 
 const requireToken = passport.authenticate('jwt', { session: false })
 

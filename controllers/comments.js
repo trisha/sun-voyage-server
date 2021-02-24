@@ -18,13 +18,15 @@ router.get('/display/:planetId', (req, res) => {
 
 // Add a new comment to /comments/add/planet:id. Must be logged in. Below URL is for Mercury:
 // http://localhost:8000/comments/add/6033f85cf487a44600fe84b2 
+
+
 router.post('/add/:planetId', requireToken, (req, res) => {
     let comment = JSON.parse(req.body.comment) // req.body.userData, req.body.comment
     Planet.findById( comment.planet )
     .then(async foundPlanet => {
         await foundPlanet.comments.push({
             planet: req.body.planet, // Planet mongoose ID.
-            user: req.user.id, // User mongoose ID.
+            user: comment.user, // User mongoose ID.
             content: comment.content,
             archived: false // TO-DO: ADD LOGIC THAT DETERMINES WHETHER THIS COMMENT IS ARCHIVED OR NOT.
         })
@@ -35,6 +37,24 @@ router.post('/add/:planetId', requireToken, (req, res) => {
         console.log("Error trying to add a comment to a planet by planet ID ", err)
     })
 })
+
+// router.post('/add/:planetId', requireToken, (req, res) => {
+//     let comment = JSON.parse(req.body.comment) // req.body.userData, req.body.comment
+//     Planet.findById( comment.planet )
+//     .then(async foundPlanet => {
+//         await foundPlanet.comments.push({
+//             planet: req.body.planet, // Planet mongoose ID.
+//             user: req.user.id, // User mongoose ID.
+//             content: comment.content,
+//             archived: false // TO-DO: ADD LOGIC THAT DETERMINES WHETHER THIS COMMENT IS ARCHIVED OR NOT.
+//         })
+//         await foundPlanet.save()
+//         res.json({ foundPlanet }) // Sends updated planet with added comment.
+//     })
+//     .catch( err => {
+//         console.log("Error trying to add a comment to a planet by planet ID ", err)
+//     })
+// })
 
 // Edit comment but only if you're the author.
 // We need comment id and planet id

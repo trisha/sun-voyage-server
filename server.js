@@ -3,6 +3,7 @@ require('dotenv').config
 const express = require('express')
 const app = express()
 const cors = require('cors')
+const axios = require('axios')
 
 // Allows us to use res.json (a method provided by express, and adding the below line allows us to access it) instead of res.send. 
 app.use(express.json())
@@ -18,11 +19,9 @@ app.use('/auth', require('./controllers/auth'))
 app.use('/planets', require('./controllers/planets'))
 app.use('/comments', require('./controllers/comments'))
 
-
 app.get('/', (req, res) => {
     return res.json({ 'message': 'Successfully hit the home route. We can pass planet information to the front end from here.'})
 })
-
 
 // We use 'process.env.PORT' for if heroku wants to use its own port, no need for us to put it in our .env.
 app.listen(process.env.PORT || 8000, () => {

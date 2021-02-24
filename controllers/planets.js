@@ -5,6 +5,7 @@ const User = require('../models/User')
 const Planet = require('../models/Planet')
 const Moon = require('../models/Moon')
 const Comment = require('../models/Comment')
+const axios = require('axios')
 
 // Send information on all planets. Each planet has embedded comments as a subdocument. 
 // http://localhost:8000/planets/

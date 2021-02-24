@@ -38,24 +38,6 @@ router.post('/add/:planetId', requireToken, (req, res) => {
     })
 })
 
-// router.post('/add/:planetId', requireToken, (req, res) => {
-//     let comment = JSON.parse(req.body.comment) // req.body.userData, req.body.comment
-//     Planet.findById( comment.planet )
-//     .then(async foundPlanet => {
-//         await foundPlanet.comments.push({
-//             planet: req.body.planet, // Planet mongoose ID.
-//             user: req.user.id, // User mongoose ID.
-//             content: comment.content,
-//             archived: false // TO-DO: ADD LOGIC THAT DETERMINES WHETHER THIS COMMENT IS ARCHIVED OR NOT.
-//         })
-//         await foundPlanet.save()
-//         res.json({ foundPlanet }) // Sends updated planet with added comment.
-//     })
-//     .catch( err => {
-//         console.log("Error trying to add a comment to a planet by planet ID ", err)
-//     })
-// })
-
 // Edit comment but only if you're the author.
 // We need comment id and planet id
 router.put('/edit/:planetId/:commentId', requireToken, (req, res) => {
@@ -77,10 +59,10 @@ router.put('/edit/:planetId/:commentId', requireToken, (req, res) => {
     .then(planet=>{
         let test= planet.comments.id(req.params.commentId)
         console.log("💕")
-         console.log(test)
-         test['content']=req.body.message
-         //test.save()
-         planet.save()
+        console.log(test)
+        test['content']=req.body.message
+        //test.save()
+        planet.save()
     
         // .then(comment=>{
         //     console.log("💕")

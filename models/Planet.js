@@ -15,7 +15,6 @@ const planetSchema=new mongoose.Schema({
     sideralRotation:Number,
     comments:[commentSchema],
     archivedComments:[commentSchema] // Once comments.length >= 10 we push them to them to archivedComments.
-
 })
 
-module.exports= mongoose.model('Planet', planetSchema)
+module.exports = mongoose.model('Planet', planetSchema)

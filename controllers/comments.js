@@ -1,10 +1,10 @@
 const express = require('express')
 const router = express.Router()
+const { requireToken } = require('../middleware/auth')
 const User = require('../models/User')
 const Planet = require('../models/Planet')
 const Moon = require('../models/Moon')
 const Comment = require('../models/Comment')
-const { createUserToken, requireToken } = require('../middleware/auth')
 
 // Display a planet's comments. Use below URL for Mercury:
 // http://localhost:8000/comments/display/6033f85cf487a44600fe84b2 
@@ -21,17 +21,6 @@ router.get('/display/:planetId', (req, res) => {
 
 
 router.post('/add/:planetId', requireToken, (req, res) => {
-<<<<<<< HEAD
-    req.body.comment = JSON.parse(req.body.comment)
-    req.body.userData = JSON.parse(req.body.userData)
-    
-    Planet.findById( req.body.comment.planet )
-    .then(foundPlanet => {
-        foundPlanet.comments.push({
-            planet: req.body.comment.planet, // Planet mongoose ID.
-            user: req.body.userData.id, // User mongoose ID.
-            content: req.body.comment.content,
-=======
     let comment = JSON.parse(req.body.comment) // req.body.userData, req.body.comment
     Planet.findById( comment.planet )
     .then(async foundPlanet => {
@@ -39,7 +28,6 @@ router.post('/add/:planetId', requireToken, (req, res) => {
             planet: req.body.planet, // Planet mongoose ID.
             user: comment.user, // User mongoose ID.
             content: comment.content,
->>>>>>> e2c21cc525173bf7f7cbaaad469f6110d601c337
             archived: false // TO-DO: ADD LOGIC THAT DETERMINES WHETHER THIS COMMENT IS ARCHIVED OR NOT.
         })
         await foundPlanet.save()

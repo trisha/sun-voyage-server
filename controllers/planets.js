@@ -5,6 +5,7 @@ const User = require('../models/User')
 const Planet = require('../models/Planet')
 const Moon = require('../models/Moon')
 const Comment = require('../models/Comment')
+const axios = require('axios')
 
 // SHOW /planets
 // http://localhost:8000/planets/
@@ -28,6 +29,7 @@ router.get('/display/:id', (req, res) => {
         return res.json({planet})
     })
 })
+
 /* SEE COMMENTS.JS INSTEAD:
 // Display comments for each planet. 
 // (Need to have this separate so that we can require a token, so that we know which comments to put an edit or delete button next to.)
@@ -39,8 +41,5 @@ router.get('/archive/:id', (req, res) => {
     // Not including 'return' also seems to work in Postman.
     res.json({ message: `We've hit the /planets/archive/${req.params.id} route!`})
 })
-<<<<<<< HEAD
 
-=======
->>>>>>> main
 module.exports = router

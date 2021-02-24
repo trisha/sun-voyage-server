@@ -7,18 +7,6 @@ const Moon = require('../models/Moon')
 const Comment = require('../models/Comment')
 const { json } = require('express')
 
-// Display a planet's comments. Use below URL for Mercury:
-// http://localhost:8000/comments/display/6033f85cf487a44600fe84b2 
-/*
-router.get('/display/:planetId', (req, res) => {
-    console.log('🔥', req.user)
-    let planet = Planet.find({ id: req.params.planetId })
-    let comments = planet.comments
-    return res.json({ comments })
-    // return res.json({ "message":  "We've hit the /comments/display/:planetId page!" })
-})
-*/
-
 // Add a new comment to /comments/add/planet:id. Must be logged in. Below URL is for Mercury:
 // http://localhost:8000/comments/add/6033f85cf487a44600fe84b2 
 router.post('/add/:planetId', requireToken, (req, res) => {
@@ -38,14 +26,6 @@ router.post('/add/:planetId', requireToken, (req, res) => {
     .catch( err => {
         console.log("Error finding planet by ID ", err)
     })
-
-
-    // We use req.params.id to know which planet this comment belongs to.
-    // We create a comment using req.body.title, req.body.content, etc.
-    // return res.redirect(`/planets.display/${req.params.planetId}`, comments={newComments})
-    // return res.json({ "message":  "We've hit the /comments/add/:planetId page!" })
-
-
 })
 
 // Edit comment but only if you're the author.

@@ -39,8 +39,6 @@ router.post('/add/:planetId', requireToken, (req, res) => {
         console.log("Error finding planet by ID ", err)
     })
 
-<<<<<<< HEAD
-=======
 
     // We use req.params.id to know which planet this comment belongs to.
     // We create a comment using req.body.title, req.body.content, etc.
@@ -50,7 +48,6 @@ router.post('/add/:planetId', requireToken, (req, res) => {
 
 })
 
->>>>>>> main
 // Edit comment but only if you're the author.
 // We need comment id and planet id
 router.put('/edit/:planetId/:commentId', requireToken, (req, res) => {
@@ -61,29 +58,6 @@ router.put('/edit/:planetId/:commentId', requireToken, (req, res) => {
     console.log(req.body.content)
     Planet.findByIdAndUpdate(req.params.planetId)
     .then(planet=>{
-<<<<<<< HEAD
-        let test= planet.comments.id(req.params.commentId)
-        console.log("💕")
-        console.log(test)
-        test['content']=req.body.message
-        //test.save()
-        planet.save()
-    
-        // .then(comment=>{
-        //     console.log("💕")
-        //     console.log(comment)
-        // })
-        
-        // planet.comments.forEach(comment=>{
-        //     console.log("💕")
-        //     console.log(comment.id)
-        //     if(comment.id==req.params.commentId){
-        //         comment.content=req.body.message
-        //     }
-        // })
-        //planet.save()
-        return res.json( {message:"true"})
-=======
             let test= planet.comments.id(req.params.commentId)
                 test['content']=req.body.content
                 planet.save(function(err){
@@ -91,7 +65,6 @@ router.put('/edit/:planetId/:commentId', requireToken, (req, res) => {
                         return res.json( {planet})
                     }
                 })
->>>>>>> main
 })
 .catch(err=>{
     console.log(err)

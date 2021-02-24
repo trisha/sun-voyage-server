@@ -8,7 +8,6 @@ const { createUserToken, requireToken } = require('../middleware/auth')
 
 // Display a planet's comments. Use below URL for Mercury:
 // http://localhost:8000/comments/display/6033f85cf487a44600fe84b2 
-/*
 router.get('/display/:planetId', (req, res) => {
     console.log('🔥', req.user)
     let planet = Planet.find({ id: req.params.planetId })
@@ -16,11 +15,13 @@ router.get('/display/:planetId', (req, res) => {
     return res.json({ comments })
     // return res.json({ "message":  "We've hit the /comments/display/:planetId page!" })
 })
-*/
 
 // Add a new comment to /comments/add/planet:id. Must be logged in. Below URL is for Mercury:
 // http://localhost:8000/comments/add/6033f85cf487a44600fe84b2 
+
+
 router.post('/add/:planetId', requireToken, (req, res) => {
+<<<<<<< HEAD
     req.body.comment = JSON.parse(req.body.comment)
     req.body.userData = JSON.parse(req.body.userData)
     
@@ -30,23 +31,42 @@ router.post('/add/:planetId', requireToken, (req, res) => {
             planet: req.body.comment.planet, // Planet mongoose ID.
             user: req.body.userData.id, // User mongoose ID.
             content: req.body.comment.content,
+=======
+    let comment = JSON.parse(req.body.comment) // req.body.userData, req.body.comment
+    Planet.findById( comment.planet )
+    .then(async foundPlanet => {
+        await foundPlanet.comments.push({
+            planet: req.body.planet, // Planet mongoose ID.
+            user: comment.user, // User mongoose ID.
+            content: comment.content,
+>>>>>>> e2c21cc525173bf7f7cbaaad469f6110d601c337
             archived: false // TO-DO: ADD LOGIC THAT DETERMINES WHETHER THIS COMMENT IS ARCHIVED OR NOT.
         })
-        foundPlanet.save()
+        await foundPlanet.save()
         res.json({ foundPlanet }) // Sends updated planet with added comment.
     })
     .catch( err => {
-        console.log("Error finding planet by ID ", err)
+        console.log("Error trying to add a comment to a planet by planet ID ", err)
     })
-
-
-    // We use req.params.id to know which planet this comment belongs to.
-    // We create a comment using req.body.title, req.body.content, etc.
-    // return res.redirect(`/planets.display/${req.params.planetId}`, comments={newComments})
-    // return res.json({ "message":  "We've hit the /comments/add/:planetId page!" })
-
-
 })
+
+// router.post('/add/:planetId', requireToken, (req, res) => {
+//     let comment = JSON.parse(req.body.comment) // req.body.userData, req.body.comment
+//     Planet.findById( comment.planet )
+//     .then(async foundPlanet => {
+//         await foundPlanet.comments.push({
+//             planet: req.body.planet, // Planet mongoose ID.
+//             user: req.user.id, // User mongoose ID.
+//             content: comment.content,
+//             archived: false // TO-DO: ADD LOGIC THAT DETERMINES WHETHER THIS COMMENT IS ARCHIVED OR NOT.
+//         })
+//         await foundPlanet.save()
+//         res.json({ foundPlanet }) // Sends updated planet with added comment.
+//     })
+//     .catch( err => {
+//         console.log("Error trying to add a comment to a planet by planet ID ", err)
+//     })
+// })
 
 // Edit comment but only if you're the author.
 // We need comment id and planet id

@@ -44,7 +44,7 @@ router.post('/signup', (req, res) => {
         // .then(createdUser => res.json(createdUser))
         .then(createdUser => {
             // Lines 33 and 34 are for test it will remove
-            createdUser.comments.push({content:"Hello this is just for test",planet:"60317bdb042ec95f348177f9",user:createdUser.id},{content:"the second one"})
+            createdUser.comments.push({content:"Test comment being added upon user signup",planet:"60317bdb042ec95f348177f9",user:createdUser.id},{content:"the second one"})
             createdUser.save()
             return createUserToken(req, createdUser)}) // Creating a token.
         .then(token => res.json({token})) // Sending that token to the frontend.

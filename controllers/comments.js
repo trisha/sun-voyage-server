@@ -21,16 +21,17 @@ router.get('/display/:planetId', (req, res) => {
 // Add a new comment to /comments/add/planet:id. Must be logged in. Below URL is for Mercury:
 // http://localhost:8000/comments/add/6033f85cf487a44600fe84b2 
 router.post('/add/:planetId', requireToken, (req, res) => {
-    Planet.findById( req.body.planet )
+    Planet.findById( req.params.planetId )
     .then(foundPlanet => {
         foundPlanet.comments.push({
             planet: req.body.planet, // Planet mongoose ID.
             user: req.user.id, // User mongoose ID.
-            content: req.body.content,
+            content: req.body.comment,
             archived: false // TO-DO: ADD LOGIC THAT DETERMINES WHETHER THIS COMMENT IS ARCHIVED OR NOT.
         })
         foundPlanet.save()
-        res.json({ foundPlanet }) // Sends updated planet with added comment.
+
+        return res.json({ foundPlanet }) // Sends updated planet with added comment.
     })
     .catch( err => {
         console.log("Error finding planet by ID ", err)
@@ -52,14 +53,19 @@ router.put('/edit/:planetId/:commentId', requireToken, (req, res) => {
     // Verify that email matches logged in user's email.
     Planet.findByIdAndUpdate(req.params.planetId)
     .then(planet=>{
-        let comment= planet.comments.id(req.params.commentId)
-            if(req.user.id==comment.user){
-                comment['content']=req.body.message
-                planet.save()
-                return res.json( {message:"true"})
+            let test= planet.comments.id(req.params.commentId)
+            if(test.user==req.user.id){
+
+                test['content']=req.body.message
+                planet.save(function(err){
+                    if(!err){
+
+                        return res.json( {message:"true"})
+                    }
+                })
             }
             else{
-                return res.json( {message:"unAthorized"})
+                    return res.json({message:"unathorized"})
             }
 })
 .catch(err=>{
@@ -75,23 +81,23 @@ router.put('/edit/:planetId/:commentId', requireToken, (req, res) => {
 router.delete('/delete/:planetId/:commentId', requireToken, (req, res) => {
     // Find comment by ID
     // Verify that user email matches logged in user email
-    Planet.findById(req.params.planetId)
+    Planet.findByIdAndUpdate(req.params.planetId)
     .then(planet=>{
-        let comment= planet.comments.id(req.params.commentId)
-        if(req.user.id==comment.user){
-            planet.comments.id(req.params.commentId).remove()
-            planet.save(err=>{
-                if(!err){
-
-                    return res.json( {message:"true"})
-                }
-            })
-        }
-        else{
-            return res.json( {message:"unAthorized"})
-
-        }
-    })
+            let test= planet.comments.id(req.params.commentId)
+            if(test.user==req.user.id){
+                planet.comments.id(req.params.commentId).remove()
+                test['content']=req.body.message
+                planet.save(function(err){
+                    if(!err){
+                        return res.json( {message:"true"})
+                    }
+                })
+            }
+            else{
+                    return res.json({message:"unathorized"})
+            }
+})
+    return res.json({ "message": "We've hit the delete a comment route."})
 }) 
 
 module.exports = router

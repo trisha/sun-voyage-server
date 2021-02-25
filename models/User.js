@@ -24,18 +24,9 @@ const userSchema = new mongoose.Schema({
         required: true,
         minlength:10
     },
-    name:{
-        required:true,
-        type:String
-    },
-    DOB:{
-        type:String,
-        required:true,
-    },
-    weight:{
-        type:Number,
-        required:true
-    },
+    name:String,
+    DOB:String,
+    weight:Number,
     age:Number
 }, options)
 

@@ -3,7 +3,7 @@ const router = express.Router()
 const User = require('../models/User')
 const Planet = require('../models/Planet')
 const bcrypt = require('bcrypt')
-const { createUserToken, requireToken } = require('../middleware/auth')
+const { createUserToken, createNewUserToken, requireToken } = require('../middleware/auth')
 const passport = require('passport') // For authentication; must be logged in to see /auth/profile route.
 
 // http://localhost:8000/auth/login
@@ -21,7 +21,8 @@ router.post('/login', (req, res) => {
         //     console.log(planet)
         //     planet.save()
         // })
-        return createUserToken (req, foundUser)})
+        return createUserToken (req, foundUser)
+    })
 //    .then(token => res.json( {token} )) // Using curly braces returns JSON object with 'token' as the key and a string value. Without curly braces, it only returns the string value.
     .then(token => res.status(201).json( {token} ))
     .catch( err => {
@@ -33,7 +34,7 @@ router.post('/login', (req, res) => {
 // http://localhost:8000/auth/signup
 router.post('/signup', (req, res) => {
     // I should add the age calculation
-    console.log(req.body)
+    // console.log(req.body)
     bcrypt.hash(req.body.password, 10)
     .then(hashedPassword => ({
         email: req.body.email,
@@ -71,7 +72,7 @@ router.get('/profile', requireToken, (req, res) => { // passport.authenticate ta
     // requireToken is what is giving us/creates the req.user information. Jwt has middleware that does this for us whereas in session we had to define it. 
    // Returns password in a JS object because we aren't converting it to JSON. Only when we convert to JSON does the password get omitted (on model/auth.js). 
 //    User.findOne({name: 'Bob'}, function (err, user) {
-    console.log(req.params.id)
+    // console.log(req.params.id)
     Planet.find({'comments.user':req.user.id})
     .then(planet=>{
         let arr=planet.map(plan=>{
@@ -83,8 +84,27 @@ router.get('/profile', requireToken, (req, res) => { // passport.authenticate ta
         // console.log('🤞')
         // console.log(arr)
         return res.json( {arr})
+    })
 })
 
+// EDIT PROFILE.
+router.put('/profile/edit', requireToken, (req, res) => {
+    const profile=JSON.parse(req.body.profile) // This grabs data.profile. Profile includes name, DOB, age, weight.
+    console.log('Profile is: ', profile)
+    User.findByIdAndUpdate(req.user.id)
+    .then( foundUser => {
+        foundUser.name = profile.name
+        foundUser.DOB = profile.DOB
+        foundUser.age = profile.age
+        foundUser.weight = profile.weight
+        foundUser.save()
+        console.log("FoundUser has now been updated to: ", foundUser)
+        // return createNewUserToken (req, foundUser) // Returns a token.
+    })
+    .catch(err => {
+        console.log("Error trying to update user by ID ", err)
+    })
+    res.send("We've hit the PUT /profile/edit route.")
 })
 
 // POST to login, copy and paste token value (not including strings)

@@ -24,7 +24,10 @@ router.post('/login', (req, res) => {
         return createUserToken (req, foundUser)})
 //    .then(token => res.json( {token} )) // Using curly braces returns JSON object with 'token' as the key and a string value. Without curly braces, it only returns the string value.
     .then(token => res.status(201).json( {token} ))
-    .catch( err => console.log( 'ERROR LOGGING IN:', err ))
+    .catch( err => {
+        console.log( 'ERROR LOGGING IN:', err )
+        res.status(401).json( {message: 'Invalid login' })
+    })
 })
 
 // http://localhost:8000/auth/signup
@@ -48,7 +51,10 @@ router.post('/signup', (req, res) => {
             createdUser.save()
             return createUserToken(req, createdUser)}) // Creating a token.
         .then(token => res.json({token})) // Sending that token to the frontend.
-        .catch(err => console.log('ERROR CREATING USER', err))
+        .catch(err => {
+            console.log('ERROR CREATING USER', err)
+            res.status(401).json({ message: 'Error creating new account' })
+        })
     })
     // res.send("We've hit the /auth/signup POST route.")
 })

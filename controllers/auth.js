@@ -129,12 +129,12 @@ router.put('/profile/edit', requireToken, (req, res) => {
         foundUser.weight = profile.weight
         foundUser.save()
         console.log("FoundUser has now been updated to: ", foundUser)
+        res.send(createNewUserToken (req, foundUser))
         // return createNewUserToken (req, foundUser) // Returns a token.
     })
     .catch(err => {
-        console.log("Error trying to update user by ID ", err)
+        res.send("Error trying to update user by ID ", err)
     })
-    res.send("We've hit the PUT /profile/edit route.")
 })
     // these are subdocument function
     // Planet.find({'comments.user':req.user.id})

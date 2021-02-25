@@ -20,7 +20,6 @@ router.post('/add/:planetId', requireToken, (req, res) => {
             archived: false // TO-DO: ADD LOGIC THAT DETERMINES WHETHER THIS COMMENT IS ARCHIVED OR NOT.
         })
         foundPlanet.save()
-
         return res.json({ foundPlanet }) // Sends updated planet with added comment.
     })
     .catch( err => {
@@ -65,7 +64,7 @@ router.delete('/delete/:planetId/:commentId', requireToken, (req, res) => {
                 test['content']=req.body.message
                 planet.save(function(err){
                     if(!err){
-                        return res.json( planet)
+                        return res.json(planet)
                     }
                 })
 })

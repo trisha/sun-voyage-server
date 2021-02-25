@@ -77,8 +77,12 @@ router.get('/profile', requireToken, (req, res) => { // passport.authenticate ta
         // console.log('🤞')
         // console.log(arr)
         return res.json( {arr})
+    })
 })
 
+// EDIT PROFILE.
+router.put('/profile/edit', requireToken, (req, res) => {
+    res.send("We've hit the PUT /profile/edit route.")
 })
 
 // POST to login, copy and paste token value (not including strings)

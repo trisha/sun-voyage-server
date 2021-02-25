@@ -8,12 +8,8 @@ const options={
 
 // Screenshot of sample comment: https://files.slack.com/files-pri/T0351JZQ0-F01NYALE90B/image.png
 const commentSchema=new mongoose.Schema({
-    planet:{
-        type:mongoose.Schema.ObjectId
-    },
-    user:{
-        type: mongoose.Schema.ObjectId
-    },
+    planet: {type: mongoose.Schema.Types.ObjectId, ref: 'Planet'},
+    user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     content:{
         type:String,
         required:true
@@ -23,5 +19,5 @@ const commentSchema=new mongoose.Schema({
     archived:Boolean
 }, options)
 
-module.exports=commentSchema
+module.exports = mongoose.model('Comment', commentSchema);
 

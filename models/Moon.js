@@ -1,5 +1,4 @@
 const mongoose=require('../db/connection')
-const commentSchema = require('./Comment')
 
 const moonSchema=new mongoose.Schema({
     name:String,
@@ -11,7 +10,7 @@ const moonSchema=new mongoose.Schema({
     escape:Number,
     sideralOrbit:Number,
     sideralRotation:Number,
-    comments:[commentSchema]
+
 
 })
 

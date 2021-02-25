@@ -1,5 +1,5 @@
 const mongoose=require('../db/connection')
-const commentSchema = require('./Comment')
+//const commentSchema = require('./Comment')
 const moonSchema = require('./Moon')
 
 const planetSchema=new mongoose.Schema({
@@ -13,8 +13,9 @@ const planetSchema=new mongoose.Schema({
     escape:Number,
     sideralOrbit:Number,
     sideralRotation:Number,
-    comments:[commentSchema],
-    archivedComments:[commentSchema] // Once comments.length >= 10 we push them to them to archivedComments.
+    //comments:[commentSchema],
+    //archivedComments:[commentSchema] // Once comments.length >= 10 we push them to them to archivedComments.
+    comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}]
 })
 
 module.exports = mongoose.model('Planet', planetSchema)

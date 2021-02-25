@@ -32,9 +32,9 @@ router.post('/add/:planetId', requireToken, (req, res) => {
 router.put('/edit/:planetId/:commentId', requireToken, (req, res) => {
     // Find comment by ID. 
     // Verify that email matches logged in user's email.
-    console.log("test edit path")
-    console.log('')
-    console.log(req.body.content)
+    // console.log("test edit path")
+    // console.log('')
+    // console.log(req.body.content)
     Planet.findByIdAndUpdate(req.params.planetId)
     .then(planet=>{
             let test= planet.comments.id(req.params.commentId)

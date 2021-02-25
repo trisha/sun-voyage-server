@@ -1,5 +1,5 @@
 const mongoose = require('../db/connection')
-const commentSchema = require('./Comment')
+//const commentSchema = require('./Comment')
 const options = {
     timestamps: true,
     toJSON: {
@@ -13,6 +13,7 @@ const options = {
 
 // mongoose.Schema is a constructor method. Takes in schema and options as arguments.
 const userSchema = new mongoose.Schema({
+    comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}],
     email: {
         type: String,
         unique: true,
@@ -21,10 +22,13 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
+        required:true,
         minlength:10
     },
-    name:String,
+    name:{
+        required:true,
+        type:String
+    },
     DOB:String,
     weight:Number,
     age:Number

@@ -161,19 +161,35 @@ router.put('/edit/:planetId/:commentId', requireToken, (req, res) => {
 // DELETE to http://localhost:8000/comments/delete/:id
 // In Postman, put your token in Headers: key='Authorization', value=`Bearer ${token}`
 router.delete('/delete/:planetId/:commentId', requireToken, (req, res) => {
-    // Find comment by ID
-    // Verify that user email matches logged in user email
-    Planet.findByIdAndUpdate(req.params.planetId)
-    .then(planet=>{
-            let test= planet.comments.id(req.params.commentId)       
-                planet.comments.id(req.params.commentId).remove()
-                test['content']=req.body.message
+    Comment.findById(req.params.commentId)
+    .then(comment => {
+        console.log('-------- COMMENT ----------')
+        console.log(comment)
+
+        Comment.findByIdAndDelete(comment._id)
+
+        User.findByIdAndUpdate(comment.user)
+        .then(user => {
+            console.log(user.comments.indexOf(comment._id))
+            let commentIndex = user.comments.indexOf(comment._id)
+            user.comments.splice(commentIndex, 1)
+            user.save(function(err){})
+        })
+
+        Planet.findByIdAndUpdate(comment.planet)
+        .then(planet=>{
+            if (planet.comments.includes(comment._id)) {
+                console.log(planet.comments.indexOf(comment._id))
+                commentIndex = planet.comments.indexOf(comment._id)
+                planet.comments.splice(commentIndex, 1)
                 planet.save(function(err){
                     if(!err){
                         return res.json(planet)
                     }
-                })
-})
+                }
+            )}
+        })
+    })
 }) 
 
 module.exports = router

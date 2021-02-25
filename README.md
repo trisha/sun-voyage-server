@@ -23,3 +23,16 @@ user = generic user; User = logged in user.
 | Wed, 2/24/21 | <ul> <li>DB refactor: Object reference Comment schema (instead of Planet subdocument) (b)</li> <li>User commenting with new Comment schema (f, b)</li> <li>User editing Profile (f, b)</li> <li>'Picture of the Day,' NASA API space photos (f)</li> <li>About page styling, twinkling cover on homepage (f)</li> </ul> |
 | Thurs, 2/25/21 | <ul> <li>Fresh User token generation when updating Profile (f, b)</li></ul>
 
+
+
+<!-- How to deploy to Heroku:
+https://gawdiseattle.gitbook.io/wdi/00-config-deployment/deploy-node-mongo
+
+We deploy both the client AND the server repos. 
+
+The server URL is sun-voyage.herokuapp.com
+The client URL is sunvoyage.herokuapp.com
+
+We set up our environment/config variables in the Heroku Dashboard. 
+Project > Settings > Show Config Vars (and copy over your environment variables except for Port, since Heroku uses its own)
+-->

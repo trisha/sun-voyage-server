@@ -52,7 +52,8 @@ router.post('/add/:planetId', requireToken, (req, res) => {
                         let searchTerm=planet.comments.map((data,i)=>{
                             return {
                                 user:data.user.name,
-                                content:data.content
+                                content:data.content,
+                                id: data._id
                             }
                         })
                         return res.json( {'searchTerm':searchTerm})
@@ -107,7 +108,8 @@ router.put('/edit/:planetId/:commentId', requireToken, (req, res) => {
     .then(comment=>{
         if(comment.user==req.user.id){
 
-            comment.content="I edited"
+            console.log(req.body.comment)
+            comment.content= req.body.comment
             comment.save((err,c)=>{
     
                 console.log(c)
@@ -120,7 +122,8 @@ router.put('/edit/:planetId/:commentId', requireToken, (req, res) => {
                             let searchTerm=planet.comments.map((data,i)=>{
                                 return {
                                     user:data.user.name,
-                                    content:data.content
+                                    content:data.content,
+                                    id:data._id
                                 }
                             })
                             return res.json( {'searchTerm':searchTerm})

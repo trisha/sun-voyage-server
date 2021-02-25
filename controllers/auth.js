@@ -103,18 +103,18 @@ router.get('/profile', requireToken, (req, res) => { // passport.authenticate ta
         }
     })
     // console.log(req.params.id)
-    Planet.find({'comments.user':req.user.id})
-    .then(planet=>{
-        let arr=planet.map(plan=>{
-            return  {
-                name:plan.name,
-                comments:plan.comments
-            }
-        })
-        // console.log('🤞')
-        // console.log(arr)
-        return res.json( {arr})
-    })
+    // Planet.find({'comments.user':req.user.id})
+    // .then(planet=>{
+    //     let arr=planet.map(plan=>{
+    //         return  {
+    //             name:plan.name,
+    //             comments:plan.comments
+    //         }
+    //     })
+    //     // console.log('🤞')
+    //     // console.log(arr)
+    //     return res.json( {arr})
+    // })
 })
 
 // EDIT PROFILE.

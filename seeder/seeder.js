@@ -56,7 +56,7 @@ axios.get('https://api.le-systeme-solaire.net/rest/bodies/')
         // Send all planet data, with the moon subdocs, to the database
         Planet.create(planetHash[planet])
         .then(newPlanet => {
-            console.log(newPlanet)
+            // console.log(newPlanet)
         })
     }
 })

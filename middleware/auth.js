@@ -59,6 +59,30 @@ const createUserToken = (req, user) => {
     }
 }
 
+const createNewUserToken = (req, user) => {
+    // Above ternary is the same as coding the below:
+    // const validPassword
+    // if (req.body.password) { 
+    //  validPassword = bcrypt.compareSync(req.body.password, user.password)
+    // } else { 
+    //     validPassword = false 
+    // }
+    if (!user) {
+        const err = new Error('No user is logged in to refersh their token.') // Error is vanilla JavaScript
+        err.statusCode = 422
+        throw err
+    } else { // If there's already a user logged in.
+        const payload = {
+            id: user._id,
+            email: user.email,
+            name:user.name,
+            DOB:user.DOB,
+            weight:user.weight
+        }
+        return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 10800 }) // 10800 seconds is 3 hours.
+    }
+}
+
 const requireToken = passport.authenticate('jwt', { session: false })
 
-module.exports = { createUserToken, requireToken }
+module.exports = { createUserToken, createNewUserToken, requireToken }

@@ -20,7 +20,6 @@ router.post('/add/:planetId', requireToken, (req, res) => {
             archived: false // TO-DO: ADD LOGIC THAT DETERMINES WHETHER THIS COMMENT IS ARCHIVED OR NOT.
         })
         foundPlanet.save()
-
         return res.json({ foundPlanet }) // Sends updated planet with added comment.
     })
     .catch( err => {
@@ -33,9 +32,9 @@ router.post('/add/:planetId', requireToken, (req, res) => {
 router.put('/edit/:planetId/:commentId', requireToken, (req, res) => {
     // Find comment by ID. 
     // Verify that email matches logged in user's email.
-    console.log("test edit path")
-    console.log('')
-    console.log(req.body.content)
+    // console.log("test edit path")
+    // console.log('')
+    // console.log(req.body.content)
     Planet.findByIdAndUpdate(req.params.planetId)
     .then(planet=>{
             let test= planet.comments.id(req.params.commentId)
@@ -65,7 +64,7 @@ router.delete('/delete/:planetId/:commentId', requireToken, (req, res) => {
                 test['content']=req.body.message
                 planet.save(function(err){
                     if(!err){
-                        return res.json( planet)
+                        return res.json(planet)
                     }
                 })
 })

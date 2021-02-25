@@ -99,12 +99,12 @@ router.put('/profile/edit', requireToken, (req, res) => {
         foundUser.weight = profile.weight
         foundUser.save()
         console.log("FoundUser has now been updated to: ", foundUser)
+        res.send(createNewUserToken (req, foundUser))
         // return createNewUserToken (req, foundUser) // Returns a token.
     })
     .catch(err => {
-        console.log("Error trying to update user by ID ", err)
+        res.send("Error trying to update user by ID ", err)
     })
-    res.send("We've hit the PUT /profile/edit route.")
 })
 
 // POST to login, copy and paste token value (not including strings)

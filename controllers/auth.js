@@ -4,7 +4,7 @@ const User = require('../models/User')
 const Planet = require('../models/Planet')
 const Comment = require('../models/Comment')
 const bcrypt = require('bcrypt')
-const { createUserToken, requireToken } = require('../middleware/auth')
+const { createUserToken, createNewUserToken, requireToken } = require('../middleware/auth')
 const passport = require('passport') // For authentication; must be logged in to see /auth/profile route.
 
 let findComments=(PlanetId)=>{
@@ -37,13 +37,17 @@ router.post('/login', (req, res) => {
         return createUserToken (req, foundUser)})
 //    .then(token => res.json( {token} )) // Using curly braces returns JSON object with 'token' as the key and a string value. Without curly braces, it only returns the string value.
     .then(token => res.status(201).json( {token} ))
-    .catch( err => console.log( 'ERROR LOGGING IN:', err ))
+    .catch( err => {
+        console.log( 'ERROR LOGGING IN:', err )
+        res.status(401).json( {message: 'Invalid login' })
+    })
 })
 
 // http://localhost:8000/auth/signup
 router.post('/signup', (req, res) => {
     // I should add the age calculation
     //console.log(req.body)
+    // console.log(req.body)
     bcrypt.hash(req.body.password, 10)
     .then(hashedPassword => ({
         email: req.body.email,
@@ -58,7 +62,10 @@ router.post('/signup', (req, res) => {
         .then(createdUser => {
             return createUserToken(req, createdUser)}) // Creating a token.
         .then(token => res.json({token})) // Sending that token to the frontend.
-        .catch(err => console.log('ERROR CREATING USER', err))
+        .catch(err => {
+            console.log('ERROR CREATING USER', err)
+            res.status(401).json({ message: 'Error creating new account' })
+        })
     })
     // res.send("We've hit the /auth/signup POST route.")
 })
@@ -95,6 +102,39 @@ router.get('/profile', requireToken, (req, res) => { // passport.authenticate ta
             console.log(err)
         }
     })
+    // console.log(req.params.id)
+    Planet.find({'comments.user':req.user.id})
+    .then(planet=>{
+        let arr=planet.map(plan=>{
+            return  {
+                name:plan.name,
+                comments:plan.comments
+            }
+        })
+        // console.log('🤞')
+        // console.log(arr)
+        return res.json( {arr})
+    })
+})
+
+// EDIT PROFILE.
+router.put('/profile/edit', requireToken, (req, res) => {
+    const profile=JSON.parse(req.body.profile) // This grabs data.profile. Profile includes name, DOB, age, weight.
+    console.log('Profile is: ', profile)
+    User.findByIdAndUpdate(req.user.id)
+    .then( foundUser => {
+        foundUser.name = profile.name
+        foundUser.DOB = profile.DOB
+        foundUser.age = profile.age
+        foundUser.weight = profile.weight
+        foundUser.save()
+        console.log("FoundUser has now been updated to: ", foundUser)
+        // return createNewUserToken (req, foundUser) // Returns a token.
+    })
+    .catch(err => {
+        console.log("Error trying to update user by ID ", err)
+    })
+    res.send("We've hit the PUT /profile/edit route.")
 })
     // these are subdocument function
     // Planet.find({'comments.user':req.user.id})

@@ -17,26 +17,20 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         unique: true,
-        required: false,
+        required: true,
         lowercase: true // Always converts email to lowercase. Source: https://mongoosejs.com/docs/schematypes.html 
     },
     password: {
         type: String,
-        required: true,
+        required:true,
         minlength:10
     },
     name:{
-        required:false,
+        required:true,
         type:String
     },
-    DOB:{
-        type:String,
-        required:false,
-    },
-    weight:{
-        type:Number,
-        required:false
-    },
+    DOB:String,
+    weight:Number,
     age:Number
 }, options)
 

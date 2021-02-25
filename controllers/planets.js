@@ -23,11 +23,13 @@ router.get('/', (req, res) => {
     
     Planet.find()
     .then(planets=>{
+        // console.log('👏')
+        // console.log(planets)
         return res.json({planets})
     })
     .catch(err=>{
-        console.log('😎')
-        console.log(err)
+        // console.log('😎')
+        // console.log(err)
         return res.json({err})
     })
 })

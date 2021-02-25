@@ -69,6 +69,8 @@ router.post('/add/:planetId', requireToken, (req, res) => {
     
         })
     })
+        foundPlanet.save()
+        return res.json({ foundPlanet }) // Sends updated planet with added comment.
     })
     .catch(err=>{
         console.log("😎😎")
@@ -101,7 +103,7 @@ router.put('/edit/:planetId/:commentId', requireToken, (req, res) => {
     // Find comment by ID. 
     // Verify that email matches logged in user's email.
     console.log(req.params.commentId)
-    Comment.findById('603731b2d8fd0910a071ba3d')
+    Comment.findById(req.params.commentId)
     .then(comment=>{
         if(comment.user==req.user.id){
 
@@ -165,7 +167,7 @@ router.delete('/delete/:planetId/:commentId', requireToken, (req, res) => {
                 test['content']=req.body.message
                 planet.save(function(err){
                     if(!err){
-                        return res.json( planet)
+                        return res.json(planet)
                     }
                 })
 })

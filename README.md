@@ -33,6 +33,10 @@ user = generic user; User = logged in user.
 (Server) https://gawdiseattle.gitbook.io/wdi/00-config-deployment/deploy-node-mongo
 (Client) https://gawdiseattle.gitbook.io/wdi/00-config-deployment/deploy-node-mongo
 
+Sample APIs and Clients to clone and fork for deployment practice: 
+API: https://github.com/TaylorDarneille/MERN-Auth-API/blob/main/package.json
+Client: https://github.com/WDI-SEA/MERN-auth-client-1214
+
 We deploy both the client AND the server repos. 
 
 The server URL is sun-voyage.herokuapp.com

@@ -1,17 +1,55 @@
-# sun-voyage-server
-This is the back-end code for Sun Voyage (pronounced like 'Bon Voyage'), a decoupled fullstack app.
+# Sun Voyage (API)
+This is the back-end for Sun Voyage (pronounced like 'Bon Voyage'), a decoupled fullstack app.
+
+sun-voyage.herokuapp.com
+
 
 # About
-Welcome to Sun Voyage! Visit planets and dwarf planets in the Solar System to learn more about each, and to see what your age and weight would be in a different world. Interact with other galactic travelers by creating stories together in the comments, similar to in the game 'Once Upon a Time.'
+Welcome to Sun Voyage! Visit planets and dwarf planets in the Solar System to learn more about each, and to see what your age and weight would be in a different world. Interact with other galactic travelers by sharing your experiences and sight-seeing recommendations in the comments of each planet!
 
-http://sunvoyage.herokuapp.com is the link to our live site.
+Click [here](http://sunvoyage.herokuapp.com) to visit the live site. 
 
-[Here](sun-voyage.herokuapp.com) is the link to our site's backend.
+Click [here](sun-voyage.herokuapp.com) to visit the live backend.
 
-# Teammates
-Patricia Pan
-Elyssa Winch
-Yasaman Forouzesh
+And click [here](https://github.com/patricia-pan/sun-voyage-client) to view the client github repo.
+
+You don't need an account to view planets and others' comments, but you will need one to add your own and to update your profile.
+
+# Contributors
+[Patricia Pan](https://github.com/patricia-pan)
+
+[Elyssa Winch](https://github.com/ElyssaW)
+
+[Yasaman Forouzesh](https://github.com/YasamanForouzesh)
+
+# Technologies Used
+- Node.js (v15.5.1)
+- Express
+    - Passport/Bcrypt - Authentication and password hashing
+    - JWT - Create user tokens
+- Key APIs:
+    - Le Soleil System - To seed database with planet information
+- Mongoose - Retrieivng and modifying database data
+- MongoDB Atlas - Database to store data
+
+# How to Install
+If you'd like to set up this project on your local server:
+- Fork and clone this repository
+- Run `npm i` to install the dependencies listed in package.json
+    - Run `npm i nodemon` (if not already globally installed)
+- Create an .env file, and add values to the below variables:
+    - `DB_CONNECTION_STRING` for the link to your local or online mongo database. `mongodb://localhost/<nameOfDatabase>` will create a database with that name if it doesn't already exist.
+    - `JWT_SECRET` to be any string that you'd like
+- To view your mongo database (assuming that you already have mongo installed):
+    - `brew services start mongodb-community@4.4`
+    - `mongo` to enter the shell
+    - `show dbs`
+    - `use <nameOfDB>`
+    - `show collections`
+    - `db.<nameOfCollection>,find().pretty()` to view all values in that collection
+    - `quit()` to exit the shell
+- Run `nodemon` to start the server in [port 8000](http://localhost:8000/) or a port of your choice
+
 
 # Timeline
 <!-- How to add lists w/i a markdown table: https://stackoverflow.com/questions/19950648/how-to-write-lists-inside-a-markdown-table -->
@@ -25,7 +63,8 @@ user = generic user; User = logged in user.
 | Mon, 2/22/21 | <ul> <li>Atlas DB with planet data (from seeder file) (b)</li> <li>User commenting on planets (f, b)</li> <li>Comment editing from backend (b)</li> <li>Navbar styling (f)</li> </ul> |
 | Tues, 2/23/21 | <ul> <li>Styling for homepage and planets display (f)</li> <li>Comment deletion from backend (b)</li> <li>User info on Profile page, User info conversions on Planet page</li> </ul> | 
 | Wed, 2/24/21 | <ul> <li>DB refactor: Object reference Comment schema (instead of Planet subdocument) (b)</li> <li>User commenting with new Comment schema (f, b)</li> <li>User editing Profile (f, b)</li> <li>'Picture of the Day,' NASA API space photos (f)</li> <li>About page styling, twinkling cover on homepage (f)</li> </ul> |
-| Thurs, 2/25/21 | <ul> <li>User comments display on Profile, grouped by Planet (f)</li> <li>User deletion of comments (from Comment, User.comments, and Planet.comments) (f,b)</li> <li>Styling for Astronomy Picture of the Day (APOD)</li> <li>Fresh User token generation when updating Profile (f, b)</li></ul>
+| Thurs, 2/25/21 | <ul> <li>User comments display on Profile, grouped by Planet (f)</li> <li>User deletion of comments (from Comment, User.comments, and Planet.comments) (f,b)</li> <li>Styling for Astronomy Picture of the Day (APOD)</li> <li>Fresh User token generation when updating Profile (f, b)</li> <li>Deployment to the internet! (f, b) </li></ul> |
+| Fri, 2/26/21 | <ul> <li>Styling for smaller screens (f)</li> <li>Final Readmes!</li> </ul>
 
 
 <!-- How to deploy to Heroku:

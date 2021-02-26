@@ -27,12 +27,19 @@ You don't need an account to view planets and others' comments, but you will nee
 
 # How to Install
 If you'd like to set up this project on your local server:
-- Fork and clone this repository.
-- Run `npm i` to install the dependencies listed in the package.json.
+- Fork and clone this repository
+- Run `npm i` to install the dependencies listed in package.json
+    - Run `npm i nodemon` (if not already globally installed)
+- Run `nodemon` to start the server in [port 8000](http://localhost:8000/) or a port of your choice
+- Create an .env file, and add values to the below variables:
+    - `DB_CONNECTION_STRING` for the link to your local or online mongo database.
+    - `JWT_SECRET` to be any string that you'd like
+- To view your mongo database:
+    - `brew services start mongodb-community@4.4`
+    - 
 
-`npm i nodemon` (if not already globally installed)
 
-`nodemon`
+
 
 # Timeline
 <!-- How to add lists w/i a markdown table: https://stackoverflow.com/questions/19950648/how-to-write-lists-inside-a-markdown-table -->

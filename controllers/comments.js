@@ -163,11 +163,11 @@ router.put('/edit/:planetId/:commentId', requireToken, (req, res) => {
 router.delete('/delete/:planetId/:commentId', requireToken, (req, res) => {
     Comment.findById(req.params.commentId)
     .then(comment => {
-        console.log('-------- COMMENT ----------')
-        console.log(comment)
 
+        // Delete from comments collection
         Comment.findByIdAndDelete(comment._id)
 
+        // Delete from user 
         User.findByIdAndUpdate(comment.user)
         .then(user => {
             console.log(user.comments.indexOf(comment._id))
@@ -176,6 +176,7 @@ router.delete('/delete/:planetId/:commentId', requireToken, (req, res) => {
             user.save(function(err){})
         })
 
+        // Delete from planet
         Planet.findByIdAndUpdate(comment.planet)
         .then(planet=>{
             if (planet.comments.includes(comment._id)) {
@@ -184,7 +185,7 @@ router.delete('/delete/:planetId/:commentId', requireToken, (req, res) => {
                 planet.comments.splice(commentIndex, 1)
                 planet.save(function(err){
                     if(!err){
-                        return res.json(planet)
+                        return res.json(planet.comments)
                     }
                 }
             )}

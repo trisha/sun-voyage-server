@@ -4,6 +4,10 @@ This is the back-end code for Sun Voyage (pronounced like 'Bon Voyage'), a decou
 # About
 Welcome to Sun Voyage! Visit planets and dwarf planets in the Solar System to learn more about each, and to see what your age and weight would be in a different world. Interact with other galactic travelers by creating stories together in the comments, similar to in the game 'Once Upon a Time.'
 
+http://sunvoyage.herokuapp.com is the link to our live site.
+
+[Here](sun-voyage.herokuapp.com) is the link to our site's backend.
+
 # Teammates
 Patricia Pan
 Elyssa Winch
@@ -26,13 +30,13 @@ user = generic user; User = logged in user.
 
 
 <!-- How to deploy to Heroku:
-https://gawdiseattle.gitbook.io/wdi/00-config-deployment/deploy-node-mongo
+(Server) https://gawdiseattle.gitbook.io/wdi/00-config-deployment/deploy-node-mongo
+(Client) https://gawdiseattle.gitbook.io/wdi/00-config-deployment/deploy-node-mongo
 
 We deploy both the client AND the server repos. 
 
 The server URL is sun-voyage.herokuapp.com
 The client URL is sunvoyage.herokuapp.com
 
-We set up our environment/config variables in the Heroku Dashboard. 
-Project > Settings > Show Config Vars (and copy over your environment variables except for Port, since Heroku uses its own)
+We can set up our environment/config variables either via terminal commands, or in the Heroku Dashboard: Project > Settings > Show Config Vars (and copy over your environment variables except for Port, since Heroku uses its own)
 -->

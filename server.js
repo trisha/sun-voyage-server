@@ -20,7 +20,7 @@ app.use('/planets', require('./controllers/planets'))
 app.use('/comments', require('./controllers/comments'))
 
 app.get('/', (req, res) => {
-    return res.json({ 'message': 'Successfully hit the home route. We can pass planet information to the front end from here.'})
+    return res.json({ 'message': 'Welcome to the back-end API for sunvoyage.herokuapp.com. You can view information on all planets via /planets, which were populated from https://api.le-systeme-solaire.net/rest/bodies/.'})
 })
 
 // We use 'process.env.PORT' for if heroku wants to use its own port, no need for us to put it in our .env.

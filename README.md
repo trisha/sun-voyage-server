@@ -25,8 +25,7 @@ user = generic user; User = logged in user.
 | Mon, 2/22/21 | <ul> <li>Atlas DB with planet data (from seeder file) (b)</li> <li>User commenting on planets (f, b)</li> <li>Comment editing from backend (b)</li> <li>Navbar styling (f)</li> </ul> |
 | Tues, 2/23/21 | <ul> <li>Styling for homepage and planets display (f)</li> <li>Comment deletion from backend (b)</li> <li>User info on Profile page, User info conversions on Planet page</li> </ul> | 
 | Wed, 2/24/21 | <ul> <li>DB refactor: Object reference Comment schema (instead of Planet subdocument) (b)</li> <li>User commenting with new Comment schema (f, b)</li> <li>User editing Profile (f, b)</li> <li>'Picture of the Day,' NASA API space photos (f)</li> <li>About page styling, twinkling cover on homepage (f)</li> </ul> |
-| Thurs, 2/25/21 | <ul> <li>Fresh User token generation when updating Profile (f, b)</li></ul>
-
+| Thurs, 2/25/21 | <ul> <li>User comments display on Profile, grouped by Planet (f)</li> <li>User deletion of comments (from Comment, User.comments, and Planet.comments) (f,b)</li> <li>Styling for Astronomy Picture of the Day (APOD)</li> <li>Fresh User token generation when updating Profile (f, b)</li></ul>
 
 
 <!-- How to deploy to Heroku:

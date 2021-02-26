@@ -2,7 +2,7 @@ require('dotenv').config()
 const mongoose = require('mongoose')
 // This is the format for constant environment variables. 
 
-mongoose.connect('mongodb+srv://dbAdmin:supersonics@sun-voyage-cluster.grew3.mongodb.net/sun-voyage-db?retryWrites=true&w=majority', {
+mongoose.connect(`${process.env.DB_CONNECTION_STRING}`, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,

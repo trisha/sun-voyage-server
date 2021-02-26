@@ -82,39 +82,52 @@ router.post('/signup', (req, res) => {
 // Returns password in a JS object because we aren't converting it to JSON. Only when we convert to JSON does the password get omitted (on model/auth.js). 
 //    User.findOne({name: 'Bob'}, function (err, user) {
 //console.log(req.params.id)
-router.get('/profile', requireToken, (req, res) => { // passport.authenticate takes two arguments: what strategy we're using, and options object (incl whether a session is involved).
-        // console.log(req.user)
-        console.log("to add comments")    
+router.get('/profile/comments', requireToken, (req, res) => { // passport.authenticate takes two arguments: what strategy we're using, and options object (incl whether a session is involved).
+    // console.log(req.user)
+    // console.log("to add comments")   
+    let userComments 
+
     User.findById(req.user.id).populate({path:'comments',populate:{path:'planet'}})
-    .exec(function(err,Search){
+    .exec(function(err,foundUser){
         if(!err){
-            console.log(Search)
+            // console.log(Search)
             // let searchTerm={planetName:Search.planet.name,}
-            let searchTerm=Search.comments.map((data,i)=>{
+            userComments=foundUser.comments.map((comment,i)=>{
                 return {
-                    planetName:data.planet.name,
-                    content:data.content
+                    id:comment._id,
+                    planetName:comment.planet.name,
+                    content:comment.content,
+                    createdAt:comment.createdAt,
+                    updatedAt:comment.updatedAt
                 }
             })
-            return res.json( {'searchTerm':searchTerm})
+            console.log("userComments is: ", userComments)
+            // return res.json( {'userComments':userComments})
+            res.json({ userComments })
         }
         else{
-            console.log(err)
+            console.log("Error when grabbing comments by user ID: ", err)
+            res.json("Error when grabbing comments by user ID: ", err)
         }
     })
     // console.log(req.params.id)
-    Planet.find({'comments.user':req.user.id})
-    .then(planet=>{
-        let arr=planet.map(plan=>{
-            return  {
-                name:plan.name,
-                comments:plan.comments
-            }
-        })
-        // console.log('🤞')
-        // console.log(arr)
-        return res.json( {arr})
-    })
+
+    // let planetUserComments
+
+    // Planet.find({'comments.user':req.user.id})
+    // .then(planets=>{
+    //     planetUserComments=planets.map(planet=>{
+    //         return  {
+    //             name:planet.name,
+    //             comments:planet.comments // Comment IDs.
+    //         }
+    //     })
+    //     // console.log('🤞')
+    //     // console.log(arr)
+    //     // return res.json( {planetUserComments})
+    //     console.log("planetUserComments is: ", planetUserComments)
+    // })
+    // console.log("planetUserComments is: ", planetUserComments)
 })
 
 // EDIT PROFILE.

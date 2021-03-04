@@ -28,11 +28,11 @@ router.post('/add/:planetId', requireToken, (req, res) => {
         user: req.user._id
     })
     .then(comment=>{
-        console.log(comment)
+        console.log("The comment is: ", comment)
         req.user.comments.push(comment)
         req.user.save((err,user)=>{
             if(!err){
-                console.log(user)
+                console.log("The user is: ", user)
             }
             else{
                 console.log(`Error message from add comment to user ${err}`)
@@ -43,12 +43,11 @@ router.post('/add/:planetId', requireToken, (req, res) => {
         planet.comments.push(comment)
         planet.save((err,planet)=>{
             if(!err){
-                console.log(planet)
+                console.log("🌎The planet is: ", planet)
                 Planet.findById(planet.id).populate({path:'comments',populate:{path:'user'}})
                 .exec(function(err,planet){
                     if(!err){
-                        console.log("❤❤")
-                        console.log(planet)
+                        console.log("🌎 The planet is: ", planet)
                         let searchTerm=planet.comments.map((data,i)=>{
                             return {
                                 user:data.user.name,
@@ -65,7 +64,6 @@ router.post('/add/:planetId', requireToken, (req, res) => {
                 })
             }
             else{
-                console.log('👏👏')
                 console.log(err)
             }
     
@@ -75,8 +73,7 @@ router.post('/add/:planetId', requireToken, (req, res) => {
         return res.json({ foundPlanet }) // Sends updated planet with added comment.
     })
     .catch(err=>{
-        console.log("😎😎")
-        console.log(err)
+        console.log("💥 Error when adding new comment to planet: ", err)
     
     })
 })

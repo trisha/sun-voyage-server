@@ -53,7 +53,8 @@ router.post('/add/:planetId', requireToken, (req, res) => {
                             return {
                                 user:data.user.name,
                                 content:data.content,
-                                id: data._id
+                                id: data._id,
+                                userId: data.user._id
                             }
                         })
                         return res.json( {'searchTerm':searchTerm})
@@ -123,7 +124,8 @@ router.put('/edit/:planetId/:commentId', requireToken, (req, res) => {
                                 return {
                                     user:data.user.name,
                                     content:data.content,
-                                    id:data._id
+                                    id:data._id,
+                                    userId: data.user._id
                                 }
                             })
                             return res.json( {'searchTerm':searchTerm})

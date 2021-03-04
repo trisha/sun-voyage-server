@@ -64,7 +64,6 @@ router.post('/add/:planetId', requireToken, (req, res) => {
                 })
             }
             else{
-                console.log('👏👏')
                 console.log(err)
             }
     
@@ -74,8 +73,7 @@ router.post('/add/:planetId', requireToken, (req, res) => {
         return res.json({ foundPlanet }) // Sends updated planet with added comment.
     })
     .catch(err=>{
-        console.log("😎😎")
-        console.log(err)
+        console.log("💥 Error when adding new comment to planet: ", err)
     
     })
 })

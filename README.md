@@ -40,6 +40,7 @@ If you'd like to set up this project on your local server:
 - Create an .env file, and add values to the below variables:
     - `DB_CONNECTION_STRING` for the link to your local or online mongo database. `mongodb://localhost/<nameOfDatabase>` will create a database with that name if it doesn't already exist.
     - `JWT_SECRET` to be any string that you'd like
+- Run the seeder file to populate your database with planets:`node seeder/seeder.js`
 - To view your mongo database (assuming that you already have mongo installed):
     - `brew services start mongodb-community@4.4`
     - `mongo` to enter the shell
